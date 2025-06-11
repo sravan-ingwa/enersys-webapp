@@ -1,0 +1,54 @@
+<style>
+        .form-group {margin-bottom:0px !important;}
+        .form-group div.col-sm-4{margin-bottom:15px;}
+        .modal-header > .close {right:-30px; top:-12px;}
+        .indent { margin-left: 50px;}
+        .move-down { margin-top: 100px;}
+        .pac-container{z-index:9999 !important;}
+        .singleSelect{width:100%; border-bottom:1px solid #e0e0e0;}
+        .SumoSelect > .optWrapper {right:0px !important;}
+        .SumoSelect > .CaptionCont > span.placeholder {color:#ccc !important;}
+        .singleSelect > .CaptionCont > label > i {color:#000;}
+        .SumoSelect > .optWrapper.open {top:33px !important;}
+        .selectdrop {overflow-y: scroll;}
+        </style>
+        <div ng-controller="warrantycalCtrl">
+            <div class="modal-style" ng-controller="deleteFormCntl">
+                <div class="modal-header clearfix">
+                    <h4 class="modal-title">Are you sure you wish to restore record ?</h4>
+                    <span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal forms_add" name="empMasterForm"
+                        reset-directive="singleViews1"
+                        data-went="#/Employeemaster" method="post" 
+                        url="services/employeemaster/restore" 
+                        ng-submit="restoreDataSubmit()" novalidate>
+                        <input type="hidden" name="employee_id" id="employee_id" value="{{deleteData.employee_id}}"/>
+                        <input type="hidden" name="employee_alias" id="employee_alias" value="{{deleteData.employee_alias}}"/>
+                        <input type="hidden" name="email_id" id="email_id" value="{{deleteData.email_id}}"/>
+                        <div class="row form-group">
+                            <div class="col-sm-12">
+                                <textarea rows="2" name="remarks" ng-model="deleteData.remarks" 
+                                class="form-control resize-v" placeholder="Remarks" 
+                                required></textarea>
+                                <span class="help-block" ng-if="empMasterForm.remarks.$dirty && empMasterForm.remarks.$invalid">
+                                    <span>Remarks is Required</span>
+                                </span>
+                            </div>
+                        </div>    
+                        <div class="row form-group">
+                            <div class="col-sm-6 col-sm-offset-5 mt10">
+                                <button type="submit" click-once class="btn btn-info btn-sm" 
+                                ng-disabled="empMasterForm.$invalid || empMasterForm.$pristine"> Restore </button>
+                                <button type="button" class="btn btn-info btn-sm" ng-click="modalClose()">Cancel</button>
+                            </div>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </div>
+        <script>
+        setInterval(function(){$('.testSelAll2').SumoSelect();
+        $('.forms_add').find('.SumoSelect').addClass('singleSelect');},0);
+        </script>

@@ -1,0 +1,160 @@
+<style>
+.form-group {margin-bottom:0px !important;}
+.form-group div.col-sm-6{margin-bottom:15px;}
+.modal-header > .close {right:-30px; top:-12px;}
+.datepicker {border-bottom: 1px solid #efefef !important;}
+.upload-file {border-bottom: 1px solid rgba(0,0,0,0.12); padding-top: 9px;}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #efefef;
+}
+input[disabled] {
+    background-color: #efefef;
+}
+md-input-container.md-default-theme .md-input[disabled], [disabled] md-input-container.md-default-theme .md-input {
+    border-bottom-color: rgba(0,0,0,0.12);
+}
+</style>
+<div ng-controller="AdvancesAdvEditCtrl">
+<div class="modal-style" ng-controller="EnersysExpenseCtrl">	<!-- wrapper for specific style -->
+	<div class="modal-header clearfix">
+		<h4 class="modal-title">EDIT ADVANCE REQUEST</h4>
+		<span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal forms_request" name="advanceRequest" data-went="#/advances" method="post" url="services/expense_tracker/advances_adv_update" novalidate>
+            <input type="hidden" value="{{expenseViews.advance_alias}}" name="advance_alias" />
+            <input type="hidden" value="{{expenseViews.approval_level}}" name="refer" />
+            <input type="hidden" name="dept_name" value="{{expenseViews.employee_dept}}" />
+			<div class="row form-group">
+            	<div class="col-sm-4" ng-controller="DatepickerDemoCtrl">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00A">Date Of Request</label>
+                        <input ng-model="expenseViews.requested_date" value="{{expenseViews.requested_date}}" name="requested_date" class="datepicker md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format2}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="'22-06-2025'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+                    </md-input-container>
+				</div>
+                <div class="col-sm-4">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Employee ID</label>
+                        <input value="{{expenseViews.employee_Id}}" disabled>
+                    </md-input-container>
+				</div>
+                <div class="col-sm-4">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Employee Name</label>
+                        <input value="{{expenseViews.employee_Name}}" disabled>
+                    </md-input-container>
+				 </div>
+              </div>   
+              <div class="row form-group">  
+                 <div class="col-sm-4">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Grade</label>
+                        <input value="{{expenseViews.grade}}" disabled>
+                    </md-input-container>
+				 </div>
+                
+                <div class="col-sm-4">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Credit Lmit:</label>
+                        <input class="limitt" value="{{expenseViews.credit_limit}}" disabled>
+                    </md-input-container>
+				 </div>
+                
+                 <div class="col-sm-4">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Previous Advances Not Settled (Amt):</label>
+                        <input value="{{expenseViews.prev_amount}}" disabled class="tamfor">
+                    </md-input-container>
+				 </div>
+               </div>
+               <div class="row form-group">  
+                  <div class="col-sm-4" ng-if="expenseViews.approval_level >= '1'">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Current Request (Amt):</label>
+                        <input value="{{expenseViews.request_amount}}" ng-model="expenseViews.request_amount" name="request_amount" class="tamfor">
+                    </md-input-container>
+				  </div>
+                  <div class="col-sm-4" ng-if="expenseViews.approval_level == '0'">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Current Request (Amt):</label>
+                        <input value="{{expenseViews.request_amount}}" name="request_amount" id="location" ng-model="expenseViews.request_amount" class="amntDig tamfor"  ng-keypress="onlyIntegers($event)" ng-keyup="onlyIntegers($event);currAmnt()" ng-focus="onlyIntegers($event)" autocomplete="off" required="required">
+                    </md-input-container>
+				  </div>
+                  <div class="col-sm-4">
+                	<md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">Total outstanding Advance (Current):</label>
+                        <input value="{{expenseViews.tot_out_adv}}" name="tot_amount" disabled class="tadv tamt">
+                        <!--<input value="{{expenseViews.prev_amount -- expenseViews.request_amount}}" name="tot_amount" disabled class="tadv">-->
+                    </md-input-container>
+				 </div>
+                <div class="col-sm-4" ng-if="expenseViews.approval_level == '6'">
+                    <md-input-container flex="" class="md-default-theme md-input-has-value">
+                        <label for="input_00B">UTR Number</label>
+                        <input tabindex="1" class="qnty" name="utr_num" value="{{expenseViews.utr_num}}" placeholder="UTR Number" type="text" ng-keypress="qntyInt($event)" ng-keyup="qntyInt($event);" ng-focus="qntyInt($event)" />
+                    </md-input-container>
+               </div>
+            </div>
+            <div class="row form-group"> 
+                 <div ng-repeat="rem in expenseViews.remarks">
+                     <div class="col-sm-6">
+                        <h5>Remarks: <small>(By {{rem.remarked_by}}, On: {{rem.remarked_on}})</small></h5>
+                        <input type="hidden" name="remarks[{{$index}}][alias]" value="{{rem.remarks_alias}}"/>
+                        <textarea rows="2" class="form-control resize-v padding-none" name="remarks[{{$index}}][remark]" placeholder="Reason/Remarks">{{rem.remarks_desc}}</textarea>
+                     </div>
+                </div>
+                <div class="col-sm-4 mb10" ng-if="expenseViews.approval_level >= '1'">
+                    <h5>Reason/Remarks: </h5>
+                    <textarea rows="2" class="form-control resize-v padding-none" name="reasonForAdv" placeholder="Enter Remarks" id="rem" required="required"></textarea>
+                    <span class="help-block" ng-if="showRemarksError">
+                        <span>Remarks is Required</span>
+                    </span>
+                </div> 
+                <div class="col-sm-4 filesRow"  ng-if="expenseViews.approval_level == '9' && expenseViews.employee_dept!='3'" ng-controller="fileUploadCtrl">
+                     <label class="selectlabel">Tour Planning Report: <span style="color:red;">(Mandatory)</span></label>   
+                     <input type="hidden" name="tplanningreport_old" value="{{expenseViews.hidden_report}}"/>                    
+                     <a href="{{expenseViews.report}}" target="_blank" ng-if="expenseViews.report != ''" style="color:red;">Click</a><br /> 
+                    <input class="form-control uploadFile" value="{{file_name}}" placeholder="Choose File" disabled="disabled" name="tplanningreport"/>
+                    <div class="fileUpload btn btn-sm btn-info" tooltip="Upload" tooltip-placement="right">
+                        <span class="ion ion-upload"></span>
+                        <input type="file" class="upload uploadBtn tplanningreport" name="tplanningreport" id="tplanningreport" onchange="angular.element(this).scope().file_load_exp(this.files)"/>
+                    </div><br />
+               		<span style="color:red; font-size:9.5px;">(Kinldy upload PDF format and size not exceeding 1MB)</span>
+                    <div class="mb20" ng-if="prg_shw_hde">
+                        <md-progress-linear class="md-warn" md-mode="buffer" value="{{determinateValue}}" md-buffer-value="{{determinateValue2}}"></md-progress-linear>
+                    </div>
+                </div>
+                </div> 
+               <div class="row form-group">  
+                   <div class="panel panel-default">
+                        <table class="table table-condensed" >
+                            <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Requested Amount</th>
+                                <th>Requested Date</th>
+                                <th>Approved By</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            	<tr ng-repeat="exp in expenseViews.advanceseditDetails">
+                                	<td>{{exp.request_id}}</td>
+                                	<td>{{exp.total_amount}}</td>
+                                	<td>{{exp.requested_date}}</td>
+                                	<td>{{exp.approved_by}}</td>
+                                </tr>
+                                <tfoot ng-if="expenseViews.advanceseditDetails.length=='0'"><tr><td>No Records</td></tr></tfoot>
+                           </tbody>
+                        </table>
+                        <!-- #end data table -->	
+                    </div>
+               </div>
+               <div class="row form-group">
+                    <div class="col-sm-6 col-sm-offset-5 mt10">
+                        <button type="submit" class="btn btn-info btn-sm"  ng-click="sendAdvRequest('advEditSave')">Submit</button>
+                    </div>
+               </div>   
+            </form> 
+		</div>
+	</div>
+</div>
+</div>

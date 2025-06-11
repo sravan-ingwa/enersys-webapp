@@ -1,0 +1,49 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Battery-Details" name="Battery-Details" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/battery_details_edit" ng-submit="sendPost('Battery-Details')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.battery_details_id" value="{{efsrData.battery_details_id}}"/>
+		<!-- <div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Battery Type</label>
+				<input type="text" ng-model="efsrData.battey_type" name="battey_type" class="md-input ng-touched" />
+			</md-input-container>
+		</div> -->
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Battery Bank Serial Number</label>
+				<input type="text" ng-model="efsrData.bank_serial_no" name="bank_serial_no" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<!-- <div ng-controller="DatepickerDemoCtrl">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label for="input_00D">Manufacturing Date</label>
+					<input type="text" ng-model="efsrData.battey_manf_date" name="battey_manf_date" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label for="input_00D">Installation Date</label>
+					<input type="text" ng-model="efsrData.battey_ins_date" name="battey_ins_date" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened2')" is-open="opened2" date-greater-than="{{FromDate}}"  min-date="pr" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false">
+					</md-input-container>
+			</div>
+		</div> -->
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="plug_type">Plug Type</label>
+			<select name="plug_type[]" class="SlectBox form-control" multiple ng-repeat="physicalvalue in singleViews | filter:{ref_id:'R'}">
+				<option value="{{child.label}}" ng-selected="efsrData.plug_type.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="acid_level">Acid Level</label>
+			<select name="acid_level" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'C'}">
+				<option value="">Acid Level</option>
+				<option value="{{child.label}}" ng-selected="child.label.toUpperCase() == efsrData.acid_level" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

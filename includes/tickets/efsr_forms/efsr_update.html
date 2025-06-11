@@ -1,0 +1,30 @@
+<style>
+	.form-group {margin-bottom:0px !important;}
+	.form-group div.col-sm-4{margin-bottom:15px;}
+	.modal-header > .close {right:-30px; top:-12px;}
+</style>
+<div class="modal-style" ng-controller="efsrEditFormCntl">
+	<div class="modal-header clearfix">
+		<h4 class="modal-title">Are you sure you wish to update record ?</h4>
+		<span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal forms_update" name="updateDataForm">
+			<div class="row form-group">
+				<div class="col-sm-12">
+					<textarea rows="2" ng-model="updateData.remarks" class="form-control resize-v" placeholder="Remarks" 
+					required></textarea>
+					<span class="help-block" ng-if="batteryBankForm.remarks.$dirty && batteryBankForm.remarks.$invalid">
+						<span>Remarks is Required</span>
+					</span>
+				</div>
+			</div>    
+			<div class="row form-group">
+				<div class="col-sm-6 col-sm-offset-4 mt10">
+					<button type="submit" class="btn btn-info btn-sm" 
+					ng-click="updatePost(updateData.ticket_id,updateData.remarks,updateData.formClass)" ng-disabled="batteryBankForm.$invalid || batteryBankForm.$pristine"> Submit </button>
+					<button type="button" class="btn btn-info btn-sm" ng-click="modalClose()">Cancel</button>
+				</div>
+			</div>
+	</div>
+</div>

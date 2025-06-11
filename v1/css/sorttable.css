@@ -1,0 +1,234 @@
+.tablesorter-bootstrap {
+	width: 100%;
+	border-collapse:collapse !important;
+}
+.tablesorter-bootstrap thead th,
+.tablesorter-bootstrap thead td,
+.tablesorter-bootstrap tfoot th,
+.tablesorter-bootstrap tfoot td {
+	font-weight:bold;
+	margin:0 !important;
+	padding:2px 0 !important; 
+	background-color: #2a6496;
+	text-align:center;
+	color:#FFF;
+	border:1px solid  #D6E4E1 !important;
+}
+.tablesorter-bootstrap thead td{border:none !important;}
+.tablesorter-bootstrap tfoot th{background-color: transparent !important;text-align:left;}
+
+.tablesorter-bootstrap tbody td{
+	background: none !important;
+	background-color:transparent !important;
+	border:1px solid  #D6E4E1 !important;
+}
+
+.tablesorter-bootstrap .tablesorter-header {cursor: pointer;}
+.tablesorter-bootstrap .tablesorter-header-inner {
+	position: relative;
+	padding: 4px;
+}
+.tablesorter-bootstrap .tablesorter-header i {
+	font-size: 11px;
+	position: absolute;
+	right: 2px;
+	top: 50%;
+	margin-top: -7px; /* half the icon height; older IE doesn't like this */
+	width: 14px;
+	height: 14px;
+	background-repeat: no-repeat;
+	line-height: 14px;
+	display: inline-block;
+}
+
+/* black unsorted icon */
+.tablesorter-bootstrap .bootstrap-icon-unsorted {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOCAMAAADOvxanAAAAVFBMVEUAAABCQkJZWVkZGRnJyckgICAZGRkZGRn8/PweHh4dHR0aGhoaGhpUVFQbGxvQ0NDc3NxMTExSUlIbGxvr6+s4ODhKSkogICAtLS00NDQzMzMnJydSEPrQAAAAGHRSTlMA1ssZRLgdAQbDyisqsZo8QdXUq0r9xPepSRwiAAAAX0lEQVQI13XHSQKAIAwEwQAKxn13Ev7/T2Pu9qmarJKPXIicI4PH4hxaKNrhm2S8bJK5h4YzKHrzJNtK6yYT/TdXzpS5zuYg4MSQYF6i4IHExdw1UVRi05HPrrvT53a+qyMFC9t04gcAAAAASUVORK5CYII=);
+}
+
+/* white unsorted icon */
+.tablesorter-bootstrap .icon-white.bootstrap-icon-unsorted {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAOBAMAAAALT/umAAAAKlBMVEUAAAD///////////////////////////////////////////////////+Gu8ovAAAADXRSTlMA4EXKBtQqvR0+sxmalc142gAAAFdJREFUCNdjYGDoamAAAjZbMxCVfvd6AgMDd+3du9UMDKx3hWSvMjBwXZww8RYDGuC53NB8h4GB8a617UUGBs7Yu3cjGRhYVO9eVQFKOskKOQApFmUgBwBZ+xXRTttNdAAAAABJRU5ErkJggg==);
+}
+
+/* since bootstrap (table-striped) uses nth-child(), we just use this to add a zebra stripe color */
+.tablesorter-bootstrap > tbody > tr.odd > td,
+.tablesorter-bootstrap > tbody > tr.tablesorter-hasChildRow.odd:hover ~ tr.tablesorter-hasChildRow.odd ~ .tablesorter-childRow.odd > td {
+	background-color: transparent;
+}
+.tablesorter-bootstrap > tbody > tr.odd:hover > td,
+.tablesorter-bootstrap > tbody > tr.even:hover > td,
+.tablesorter-bootstrap > tbody > tr.tablesorter-hasChildRow.odd:hover ~ .tablesorter-childRow.odd > td,
+.tablesorter-bootstrap > tbody > tr.tablesorter-hasChildRow.even:hover ~ .tablesorter-childRow.even > td {
+	background-color: transparent;
+}
+.tablesorter-bootstrap > tbody > tr.even > td,
+.tablesorter-bootstrap > tbody > tr.tablesorter-hasChildRow.even:hover ~ tr.tablesorter-hasChildRow.even ~ .tablesorter-childRow.even > td {
+	background-color: transparent;
+}
+
+/* processing icon */
+.tablesorter-bootstrap .tablesorter-processing {
+	background-image: url('data:image/gif;base64,R0lGODlhFAAUAKEAAO7u7lpaWgAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQBCgACACwAAAAAFAAUAAACQZRvoIDtu1wLQUAlqKTVxqwhXIiBnDg6Y4eyx4lKW5XK7wrLeK3vbq8J2W4T4e1nMhpWrZCTt3xKZ8kgsggdJmUFACH5BAEKAAIALAcAAAALAAcAAAIUVB6ii7jajgCAuUmtovxtXnmdUAAAIfkEAQoAAgAsDQACAAcACwAAAhRUIpmHy/3gUVQAQO9NetuugCFWAAAh+QQBCgACACwNAAcABwALAAACE5QVcZjKbVo6ck2AF95m5/6BSwEAIfkEAQoAAgAsBwANAAsABwAAAhOUH3kr6QaAcSrGWe1VQl+mMUIBACH5BAEKAAIALAIADQALAAcAAAIUlICmh7ncTAgqijkruDiv7n2YUAAAIfkEAQoAAgAsAAAHAAcACwAAAhQUIGmHyedehIoqFXLKfPOAaZdWAAAh+QQFCgACACwAAAIABwALAAACFJQFcJiXb15zLYRl7cla8OtlGGgUADs=');
+	background-position: center center !important;
+	background-repeat: no-repeat !important;
+}
+
+/* caption */
+.caption {
+	background: #fff;
+}
+
+/* filter widget */
+.tablesorter-bootstrap .tablesorter-filter-row{
+	border: 2px #357ebd solid !important;
+	height:35px;
+	margin:0px;
+	padding:0px;
+}
+.tablesorter-bootstrap .tablesorter-filter-row .tablesorter-filter, input.ccccccc{
+	width: 98%;
+	height:34px !important;
+	margin: 0 auto;
+	padding: 4px !important;
+	border: none !important;
+	color: #000;
+	line-height:normal !important;
+	-webkit-transition: height 0.1s ease;
+	-moz-transition: height 0.1s ease;
+	-o-transition: height 0.1s ease;
+	transition: height 0.1s ease;
+	font-weight:normal !important;
+	text-align:center;
+	text-transform:capitalize;
+	background:#fff;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+input[type="search"]::-webkit-input-placeholder {
+   font-weight:bold !important;
+   font-style:italic !important;
+}
+
+input[type="search"]::-moz-placeholder { 
+   font-weight:bold !important;
+   font-style:italic !important;
+}
+
+input[type="search"]::-moz-placeholder { 
+   font-weight:bold !important;
+   font-style:italic !important;
+}
+
+input[type="search"]::-ms-input-placeholder {  
+   font-weight:bold !important;
+   font-style:italic !important;
+}
+.tablesorter-bootstrap .tablesorter-filter-row .tablesorter-filter:focus, .ccccccc:focus{outline:2px solid #2a6496 !important;}
+.tablesorter-bootstrap .tablesorter-filter-row .tablesorter-filter.disabled {
+	width: 100%;
+	margin: 0 auto;
+	padding: 6px;
+	border:none !important;
+	color: #000;
+	-webkit-transition: height 0.1s ease;
+	-moz-transition: height 0.1s ease;
+	-o-transition: height 0.1s ease;
+	transition: height 0.1s ease;
+	cursor: not-allowed;
+}
+
+.tablesorter-bootstrap .tablesorter-filter-row td {
+	background: none;
+	line-height: normal;
+	text-align: center;
+	padding: 0px !important;
+	vertical-align: middle;
+	-webkit-transition: line-height 0.1s ease;
+	-moz-transition: line-height 0.1s ease;
+	-o-transition: line-height 0.1s ease;
+	transition: line-height 0.1s ease;
+	
+}
+/* hidden filter row */
+.tablesorter-bootstrap .tablesorter-filter-row.hideme td {
+	padding: 2px; /* change this to modify the thickness of the closed border row */
+	margin: 0;
+	line-height: 0;
+}
+.tablesorter-bootstrap .tablesorter-filter-row.hideme .tablesorter-filter {
+	height: 1px;
+	min-height: 0;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	/* don't use visibility: hidden because it disables tabbing */
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+/* rows hidden by filtering (needed for child rows) */
+.tablesorter .filtered {
+	display: none;
+}
+
+/* pager plugin */
+.tablesorter-bootstrap .tablesorter-pager select {
+  padding: 4px 6px;
+}
+.tablesorter-bootstrap .tablesorter-pager .pagedisplay {
+	border: 0;
+}
+/* tfoot i for pager controls */
+.tablesorter-bootstrap tfoot i {
+	font-size: 11px;
+}
+
+/* ajax error row */
+.tablesorter .tablesorter-errorRow td {
+	text-align: center;
+	cursor: pointer;
+	background-color: #e6bf99;
+}
+.tablesorter-pager{color:#000 !important; }
+.tablesorter-pager .btn{
+	-webkit-border-radius: 0px !important;
+	-moz-border-radius: 0px !important;
+	border-radius: 0px !important;
+	padding:4px 7px 2px 7px;  !important;
+	margin:2px;
+	background:#FFF;
+	background-color:#2a6496 !important;
+	color:#fff !important;
+	border:1ps solid #2a6496;
+}
+.export a{
+	text-align:center;
+	display:block;
+	color:#FFF;
+	margin:0 auto;
+	padding: 0 !important;
+	width:80px;
+}
+td.operations{text-align:center !important;}
+
+/*Hover View*/
+.actionsc .action-btn{padding:0px 3px;}
+.actionsc a{padding:0px 2px;}
+.actionsc i.glyphicon {color:#000;}
+.actionsc, popover{cursor:pointer;font-size:13px !important;display:none;}
+tr:hover .actionsc{display:inline-block !important;}
+/* sorting table  Ends*/
+.s-btn{
+	border:none;
+	height:34px;
+	margin:0;padding:0;
+	margin-top:-4px;
+	margin-right:-5px;
+	width:34px;
+	background:#357ebd !important;
+	}
+
+
+
+

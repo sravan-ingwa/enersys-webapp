@@ -1,0 +1,248 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Technical-Observation" name="Technical-Observation" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/technical_obs_edit" ng-submit="sendPost('Technical-Observation')" novalidate>
+		<input type="hidden" ng-model="efsrData.ticket_alias" ng-value="efsrData.ticket_alias" name="ticket_alias" />
+		<div class="row" ng-repeat="(key,technical) in efsrData.technical_obs track by key">
+			<h5 class="bg-primary text-white" style="padding:7px;">{{technical.smps_heading}} - {{technical.panel_make}}</h5>
+			<input type="hidden" ng-model="technical.technical_obs_id" ng-value="technical.technical_obs_id" name="id[{{key}}]" />
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Float Voltage</label>
+					<input type="text" ng-model="technical.float_voltage" name="float_voltage[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Boost Voltage</label>
+					<input type="text" ng-model="technical.boast_voltage" name="boast_voltage[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Current Limit(AMPS)</label>
+					<input type="text" ng-model="technical.current_limit" name="current_limit[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Voltage Ripple(MV)</label>
+					<input type="text" ng-model="technical.voltage_ripple" name="voltage_ripple[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>High Voltage Cutoff(V)</label>
+					<input type="text" ng-model="technical.high_voltage_cutoff" name="high_voltage_cutoff[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Low Voltage Cutoff</label>
+					<input type="text" ng-model="technical.low_voltage_cutoff" name="low_voltage_cutoff[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>{{technical.smps_label}} Make</label>
+					<input type="text" ng-model="technical.panel_make" name="panel_make[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>{{technical.smps_label}} Rating (Voltage and AMPS)</label>
+					<input type="text" ng-model="technical.panel_rating" name="panel_rating[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+				<md-input-container class="md-default-theme">
+					<label for="input_00D">{{technical.smps_label}} Manufacturing Date</label>
+					<input ng-model="technical.panel_manufacturing_date" name="panel_manufacturing_date[{{key}}]" class="datepicker md-input ng-touched" datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl" ng-if="technical.panel_installation_date != 'NA'">
+				<md-input-container class="md-default-theme">
+					<label for="input_00D">{{technical.smps_label}} Installation Date</label>
+					<input ng-model="technical.panel_installation_date" name="panel_installation_date[{{key}}]" class="datepicker md-input ng-touched" datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">Auto Boost</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="technical.auto_boost" name="auto_boost[{{key}}]">
+					<option value="">Auto Boost</option>
+					<option value="ENABLE" ng-selected="technical.auto_boost == 'ENABLE'">ENABLE</option>
+					<option value="DISABLE" ng-selected="technical.auto_boost == 'DISABLE'">DISABLE</option>
+					<option value="NOT AVAILABLE" ng-selected="technical.auto_boost == 'NOT AVAILABLE'">NOT AVAILABLE</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel" for="temp_compensation">Temperature Compensation</label>
+				<select name="temp_compensation[{{key}}]" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'V'}">
+					<option value="">Temperature Compensation</option>
+					<option value="{{child.label}}" ng-selected="child.label == technical.temp_compensation" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.segment_ref != 'TL'">
+				<label class="selectlabel" for="voltage_regulation">Voltage Regulation</label>
+				<select name="voltage_regulation[{{key}}]" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'P'}">
+					<option value="">Voltage Regulation</option>
+					<option value="{{child.label}}" ng-selected="child.label == technical.voltage_regulation" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>
+			<div ng-if="efsrData.segment_ref == 'SA' || efsrData.segment_ref == 'TS'">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Charge Controller Rating</label>
+						<input type="text" ng-model="technical.charge_controller_rate" name="charge_controller_rate[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Charger Controller Make</label>
+						<input type="text" ng-model="technical.charge_controller_make" name="charge_controller_make[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Solar System Rating</label>
+						<input type="text" ng-model="technical.solar_system_rating" name="solar_system_rating[{{key}}]"  class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Single Module Rated Voltage</label>
+						<input type="text" ng-model="technical.single_module_rating" name="single_module_rating[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Single PV Module Rated Current</label>
+						<input type="text" ng-model="technical.single_pv_moddule_rating_current" name="single_pv_moddule_rating_current[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>PV Module Efficiency(%)</label>
+						<input type="text" ng-model="technical.pv_module_eff" name="pv_module_eff[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				
+				<div ng-if="(efsrData.segment_ref == 'SA' && !efsrData.dg_st && !efsrData.eb_sp) || efsrData.segment_ref == 'TS'">
+					<input type="hidden" ng-model="efsrData.invertor_details_id" ng-value="efsrData.invertor_details_id" name="invertor_details_id[{{key}}]" />
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<md-input-container class="md-default-theme">
+							<label>Invertor Make</label>
+							<input type="text" ng-model="efsrData.invertor_make" name="invertor_make[{{key}}]" class="md-input ng-touched" />
+						</md-input-container>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<md-input-container class="md-default-theme">
+							<label>Invertor Capacity</label>
+							<input type="text" ng-model="efsrData.invertor_capacity" name="invertor_capacity[{{key}}]" class="md-input ng-touched" />
+						</md-input-container>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+						<md-input-container class="md-default-theme">
+							<label for="input_00D">Invertor Manufacturing Date</label>
+							<input ng-model="efsrData.invertor_manu_date" name="invertor_manu_date[{{key}}]" class="datepicker md-input ng-touched" datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+						</md-input-container>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+						<md-input-container class="md-default-theme">
+							<label for="input_00D">Invertor Installation Date</label>
+							<input ng-model="efsrData.invertor_install_date" name="invertor_install_date[{{key}}]" class="datepicker md-input ng-touched" datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+						</md-input-container>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<label class="selectlabel">Invertor Type</label>
+						<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.invertor_type" name="invertor_type[{{key}}]">
+							<option value="">Invertor Type</option>
+							<option value="SINGLE PHASE" ng-selected="efsrData.invertor_type == 'SINGLE PHASE'">SINGLE PHASE</option>
+							<option value="THREE PHASE" ng-selected="efsrData.invertor_type == 'THREE PHASE'">THREE PHASE</option>
+						</select>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<md-input-container class="md-default-theme">
+							<label>Invertor Load Current (DC Volts)</label>
+							<input type="text" ng-model="efsrData.invertor_load_current" name="invertor_load_current[{{key}}]" class="md-input ng-touched" />
+						</md-input-container>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<md-input-container class="md-default-theme">
+							<label>Low Voltage Cutoff (V) of Invertor</label>
+							<input type="text" ng-model="efsrData.low_voltage_cutoff_inv" name="low_voltage_cutoff_inv[{{key}}]" class="md-input ng-touched" />
+						</md-input-container>
+					</div>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Single Panel Rating (WATTS)</label>
+						<input type="text" ng-model="technical.single_panel_rating" name="single_panel_rating[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+					<md-input-container class="md-default-theme">
+						<label for="input_00D">Charge Controller Manufacturing Date</label>
+						<input ng-model="technical.charge_control_manufacturing_date" name="charge_control_manufacturing_date[{{key}}]" class="datepicker md-input ng-touched" datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>No. of Solar Panels</label>
+						<input type="text" ng-model="technical.no_solar_panels" name="no_solar_panels[{{key}}]"  class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+			</div>
+			<div ng-if="efsrData.segment_ref == 'TL'">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Site Load (AMPS)</label>
+						<input type="text" ng-model="technical.site_load" name="site_load[{{key}}]"  class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Working Modules</label>
+						<input type="text" ng-model="technical.no_solar_panels" name="no_solar_panels[{{key}}]"  class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel">SMR Module Rating Units</label>
+					<select class="form-control testSelAll2 selectdrop" ng-model="technical.charge_controller_make" name="charge_controller_make[{{key}}]">
+						<option value="">SMR Module Rating Units</option>
+						<option value="WATTS" ng-selected="technical.charge_controller_make == 'WATTS'">WATTS</option>
+						<option value="AMPS" ng-selected="technical.charge_controller_make == 'AMPS'">AMPS</option>
+					</select>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>SMR Module Rating</label>
+						<input type="text" ng-model="technical.charge_controller_rate" name="charge_controller_rate[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel" for="single_panel_rating">SMPS Display</label>
+					<select name="single_panel_rating[{{key}}]" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'T'}">
+						<option value="">SMPS Display</option>
+						<option value="{{child.label}}" ng-selected="child.label == technical.single_panel_rating" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+					</select>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel" for="voltage_regulation">LVD'S Status</label>
+					<select name="voltage_regulation[{{key}}]" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'P'}">
+						<option value="">Voltage Regulation</option>
+						<option value="{{child.label}}" ng-selected="child.label == technical.voltage_regulation" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+					</select>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<input type="hidden" ng-model="efsrData.module['TLOBS'][0]['other_id']" ng-value="efsrData.module['TLOBS'][0]['other_id']" name="TLOBS_other_id[{{key}}]" ng-if="efsrData.module['TLOBS'][0]['other_id'] != ''" />
+					<md-input-container class="md-default-theme">
+						<label>Other Issue if any</label>
+						<input type="text" ng-model="efsrData.module['TLOBS'][0]['other_issue']" name="TLOBS_other_issue[{{key}}]" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6 col-sm-offset-5 mt10">
+			<button type="submit" click-once class="btn btn-info btn-sm">Update</button>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,1 @@
+{"reg_id":"APA91bFwpw_erNSg5fGyaTVt_zqzc11sxNjJmbbhAkKxnm5Bp7hseAGPrcWiXS1RRKYMjq2Hya7dVDg0-Vw3ZJbckbgvE1CRyW5CYPKh3nd3nZnPDYmUkfuDZJOz9Zlol1ksEldwxpNT","pin":"8789","device_id":"866112025963162","emp_id":"DPS-1006"}

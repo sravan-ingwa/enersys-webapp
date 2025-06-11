@@ -1,0 +1,134 @@
+<div ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Service-Engineer-Observation" name="Service-Engineer-Observation" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/engineer_obs_edit" ng-submit="sendPost('Service-Engineer-Observation')" novalidate>
+		<div class="row form-group">
+		<input type="hidden" name="id" ng-model="efsrData.engineer_obs_id" value="{{efsrData.engineer_obs_id}}"/>
+		<input type="hidden" name="remarks_id" ng-model="efsrData.remarks_id" value="{{efsrData.remarks_id}}"/>
+		<input type="hidden" name="action_taken_id" ng-model="efsrData.action_taken_id" value="{{efsrData.action_taken_id}}"/>
+		<input type="hidden" name="ticket_alias" ng-model="efsrData.ticket_alias" value="{{efsrData.ticket_alias}}"/>
+		</div>
+		<div class="row form-group">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Faulty Cells</label>
+					<input type="text" ng-model="efsrData.faulty_cell_sr_no" name="faulty_cell_sr_no" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="faultycodedropCntrl">
+				<label class="selectlabel" for="faulty_code">Faulty Code</label>
+				<select name="faulty_code" class="SlectBox form-control">
+					<option value="">Faulty Code</option>
+					<option ng-repeat="faulty in firstDrop" ng-selected="faulty.name == efsrData.faulty_code" value="{{faulty.alias}}">{{faulty.name}}</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel" for="job_performed">Job Performed</label>
+				<select name="job_performed[]" class="SlectBox form-control" multiple ng-repeat="coach in singleViews | filter:{ref_id:'N'}">
+					<option value="">Job Performed</option>
+					<option value="{{child.label}}" ng-selected="efsrData.job_performed_arr.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in coach.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="row form-group">
+		<div class="panel panel-info panel-hovered" ng-controller="productbatteryratingdropCntrl">
+			<div class="panel-heading" style="padding:8px 22px;">Required Cells</div>
+			<div class="panel panel-lined mb20 cells" ng-controller="addFieldsCtrl2">
+				<div class="panel-body" ng-init="fields = efsrData.req_cell_qty">
+					<button type="button" class="btn btn-danger btn-sm" style="margin-top: -53px;float: right;" ng-click="addFields()">Add</button>
+					<div class="row text-center" style="line-height: 57px;font-size: 16px;" ng-if="fields.length == 0">Engineer Not Selected Required Cells</div>
+					<div class="row" ng-repeat="(key,type) in fields track by $index">
+						<div class="col-lg-2 col-md-2 col-sm-6">
+							<md-input-container flex="" class="md-default-theme md-input-has-value">
+								<label for="input_00D">Sr.No.</label>
+								<input type="text" value="{{key + 1}}" class="md-input ng-touched" readonly />
+						   </md-input-container>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb10">
+							<label class="selectlabel">Required Cell</label>
+							<select class="form-control testSelAll2 selectdrop" name="req_cells[{{key}}]">
+								<option value="" selected="selected">Select Required Cell</option>
+								<option ng-repeat="Cells in firstDrop" ng-selected="type.name == Cells.name" value="{{Cells.name}}">{{Cells.name}}</option>
+							</select>
+						 </div>
+						<div class="col-lg-4 col-md-4 col-sm-6">
+							<md-input-container flex="" class="md-default-theme md-input-has-value">
+								<label for="input_00D">Quantity</label>
+								<input type="text" ng-model="type.qty" ng-value="type.qty" valid-input="4" name="req_cell_qty[{{key}}]" class="md-input ng-touched"/>
+						   </md-input-container>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-6 text-center" style="line-height: 57px;">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="removeFields(key)">Remove</button>
+						</div>
+					</div>
+				</div> 
+			</div>    
+		</div>
+		</div> 
+		<div class="row form-group">
+		<div class="panel panel-info panel-hovered" ng-controller="accessorydropCntrl">
+			<div class="panel-heading" style="padding:8px 22px;">Required Accessories</div>
+			<div class="panel panel-lined mb20 cells" ng-controller="addFieldsCtrl2">
+				<div class="panel-body" ng-init="fields = efsrData.req_acc_qty">
+					<button type="button" class="btn btn-danger btn-sm" style="margin-top: -53px;float: right;" ng-click="addFields()">Add</button>
+					<div class="row text-center" style="line-height: 57px;font-size: 16px;" ng-if="fields.length == 0">Engineer Not Selected Required Accessories</div>
+					<div class="row" ng-repeat="(key,type) in fields track by $index">
+						<div class="col-lg-2 col-md-2 col-sm-6">
+							<md-input-container flex="" class="md-default-theme md-input-has-value">
+								<label for="input_00D">Sr.No.</label>
+								<input type="text" value="{{key + 1}}" class="md-input ng-touched" readonly />
+						   </md-input-container>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6 mb10">
+							<label class="selectlabel">Required Accessory</label>
+							<select class="form-control testSelAll2 selectdrop" id="measurement_{{key}}" name="req_acc[{{key}}]" ng-model="req_acc[key]" ng-change="acc_measur_change(key)">
+								<option value="" selected="selected">Select Required Accessory</option>
+								<option ng-repeat="accessories in firstDrop" data="{{accessories.measure}}" ng-selected="type.name == accessories.name" value="{{accessories.name}}">{{accessories.name}}</option>
+							</select>
+						</div>
+						<div class="col-lg-4 col-md-4 col-sm-6">
+							<md-input-container flex="" class="md-default-theme md-input-has-value">
+								<label for="input_00D" id="qty_measure_{{key}}">Quantity</label>
+								<input type="text" ng-model="type.qty" ng-value="type.qty" valid-input="4" name="req_acc_qty[{{key}}]" class="md-input ng-touched">
+						   </md-input-container>
+						</div>
+						<div class="col-lg-2 col-md-2 col-sm-6 text-center" style="line-height: 57px;">
+							<button type="button" class="btn btn-primary btn-sm" ng-click="removeFields(key)">Remove</button>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</div>
+		</div>
+		<div class="row form-group">
+			<div class="col-sm-4">
+				<label class="selectlabel" >Replaced Cells</label>
+				<textarea rows="2" ng-model="efsrData.requested_cells" readonly="readonly" class="form-control resize-v"></textarea>
+			</div>
+			<div class="col-sm-4">
+				<label class="selectlabel" >Action Taken</label>
+				<textarea rows="2" ng-model="efsrData.observation" name="action_taken" class="form-control resize-v"></textarea>
+			</div>
+			<div class="col-sm-4">
+				<label class="selectlabel" >Remarks</label>
+				<textarea rows="2" ng-model="efsrData.remarks" name="remarks" class="form-control resize-v"></textarea>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-sm-4" ng-repeat-start="(key,otherIssue) in efsrData.module['SEOBS']">
+				<label class="selectlabel" for="input_00D">Other Issue {{key + 1}}</label>
+				<input type="hidden" name="other_id[{{key}}]" ng-model="otherIssue.other_id" ng-value="otherIssue.other_id"/>
+				<textarea rows="2" ng-model="otherIssue.other_issue" name="other_issue[{{key}}]" class="form-control resize-v"></textarea>
+			</div>
+			<div class="clearfix" ng-if="($index+1)%3==0"></div>
+			<div ng-repeat-end=""></div>
+			<div class="col-sm-4" ng-repeat="(key,otherIssueExtra) in seobsLength" ng-if="seobsLength.length > 0">
+				<label class="selectlabel" for="input_00D">Other Issue {{key + 1 + efsrData.module['SEOBS'].length}}</label>
+				<textarea rows="2" name="other_issue_extra[{{key}}]" class="form-control resize-v"></textarea>
+			</div>
+		</div>
+		<div class="row mt10">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

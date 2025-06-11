@@ -1,0 +1,49 @@
+<style>
+    .form-group {margin-bottom:0px !important;}
+    .modal-header > .close {right:-30px; top:-12px;}
+</style>
+<div ng-controller="warrantycalCtrl">
+    <div class="modal-style" ng-controller="deleteFormCntl">
+        <div class="modal-header clearfix">
+            <h4 class="modal-title">Are you sure you wish to delete record ?</h4>
+            <span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal forms_add" name="smForm" method="delete" 
+                reset-directive="singleViews1" url="{{deleteData.formUrl}}"
+                data-went="{{deleteData.redirectTo}}" ng-submit="deleteDataSubmit()" novalidate>
+                <input type="hidden" name="alias" id="alias" value="{{deleteData.alias}}" />
+                <div class="row form-group">
+                    <div class="col-sm-12">
+                        <textarea rows="2" name="remarks" ng-model="deleteData.remarks" 
+                        class="form-control resize-v" placeholder="Remarks" 
+                        required></textarea>
+                        <span class="help-block" ng-if="smForm.remarks.$dirty && smForm.remarks.$invalid">
+                            <span>Remarks is Required</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row form-group" ng-if="deleteData.setting == 'material_req'" style="color: red;">
+                    <div class="col-sm-12" ng-if="(deleteData.level == '3' || deleteData.level == '8')">
+                        ** Stocks will also be deleted
+                    </div>
+                    <div class="col-sm-12" ng-if="deleteData.level == '4'">
+                        ** Stocks and Material outward will also be deleted
+                    </div>
+                </div>
+                <div class="row form-group" ng-if="deleteData.setting == 'material_inward'" style="color: red;">
+                    <div class="col-sm-12">
+                        ** Stocks will also be deleted
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-6 col-sm-offset-5 mt10">
+                        <button type="submit" click-once class="btn btn-info btn-sm" 
+                        ng-disabled="smForm.$invalid || smForm.$pristine"> Delete </button>
+                        <button type="button" class="btn btn-info btn-sm" ng-click="modalClose()">Cancel</button>
+                    </div>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>

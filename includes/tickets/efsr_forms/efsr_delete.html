@@ -1,0 +1,38 @@
+<style>
+	.form-group {margin-bottom:0px !important;}
+	.form-group div.col-sm-4{margin-bottom:15px;}
+	.modal-header > .close {right:-30px; top:-12px;}
+</style>
+<div class="modal-style" ng-controller="efsrDeleteFormCntl">
+	<div class="modal-header clearfix">
+		<h4 class="modal-title">Are you sure you wish to delete record ?</h4>
+		<span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal forms_delete" name="batteryBankForm"
+			data-went="#/tickets" method="delete" 
+			url="services/tickets/efsr_services.php/bb_row_column_delete" 
+			ng-submit="deleteDataSubmit()" novalidate>
+			<input type="hidden" name="id" ng-model="deleteData.id" value="{{deleteData.id}}"/>
+			<input type="hidden" name="ref" ng-model="deleteData.ref" value="{{deleteData.ref}}"/>
+			<input type="hidden" name="ticket_id" ng-model="deleteData.ticket_id" value="{{deleteData.ticket_id}}"/>
+			<input type="hidden" name="rowColData" ng-model="deleteData.rowColData" value="{{deleteData.rowColData}}"/>
+			<div class="row form-group">
+				<div class="col-sm-12">
+					<textarea rows="2" name="remarks" ng-model="deleteData.remarks" class="form-control resize-v" placeholder="Remarks" 
+					required></textarea>
+					<span class="help-block" ng-if="batteryBankForm.remarks.$dirty && batteryBankForm.remarks.$invalid">
+						<span>Remarks is Required</span>
+					</span>
+				</div>
+			</div>    
+			<div class="row form-group">
+				<div class="col-sm-6 col-sm-offset-4 mt10">
+					<button type="submit" class="btn btn-info btn-sm" 
+					ng-disabled="batteryBankForm.$invalid || batteryBankForm.$pristine"> Delete </button>
+					<button type="button" class="btn btn-info btn-sm" ng-click="modalClose()">Cancel</button>
+				</div>
+			</div>
+		</form> 
+	</div>
+</div>

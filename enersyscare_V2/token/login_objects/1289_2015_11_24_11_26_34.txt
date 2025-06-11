@@ -1,0 +1,1 @@
+{"reg_id":"APA91bHuVUYtegVWxaqsJdYz0Am41kzx_7IBXEFm30O_dBKUu92gv3ssfd8aTTiiLPZEMC4__ZN1kKZsDeUBU01dbDETzX_Gdbs9RHIX4fBOgmukPr4s73ouxf0VwsH6YiCI2l7mQQ3o","pin":"1234","device_id":"911423951896622","emp_id":"1289"}

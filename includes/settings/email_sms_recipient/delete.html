@@ -1,0 +1,58 @@
+<style>
+    .form-group {margin-bottom:0px !important;}
+    .form-group div.col-sm-4{margin-bottom:15px;}
+    .modal-header > .close {right:-30px; top:-12px;}
+    .indent { margin-left: 50px;}
+    .move-down { margin-top: 100px;}
+    .pac-container{z-index:9999 !important;}
+    .singleSelect{width:100%; border-bottom:1px solid #e0e0e0;}
+    .SumoSelect > .optWrapper {right:0px !important;}
+    .SumoSelect > .CaptionCont > span.placeholder {color:#ccc !important;}
+    .singleSelect > .CaptionCont > label > i {color:#000;}
+    .SumoSelect > .optWrapper.open {top:33px !important;}
+    .selectdrop {overflow-y: scroll;}
+    </style>
+    <div ng-controller="warrantycalCtrl">
+        <div class="modal-style" ng-controller="deleteFormCntl">
+            <div class="modal-header clearfix">
+                <h4 class="modal-title" ng-if="deleteData.flag == 0">Are you sure you wish to deactivate record ?</h4>
+                <h4 class="modal-title" ng-if="deleteData.flag == 1">Are you sure you wish to activate record ?</h4>
+                <span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal forms_add" name="smsEmailForm"
+                    reset-directive="singleViews1"
+                    data-went="#/settings/email_sms_recipient/view" method="delete" 
+                    url="services/settings/email_sms_recipient_delete" 
+                    ng-submit="deleteDataSubmit()" novalidate>
+                    <input type="hidden" name="alias" id="alias" value="{{deleteData.alias}}"/>
+                    <input type="hidden" name="flag" id="flag" value="{{deleteData.flag}}"/>
+                    <div class="row form-group">
+                        <div class="col-sm-12">
+                            <textarea rows="2" name="remarks" ng-model="deleteData.remarks" 
+                            class="form-control resize-v" placeholder="Remarks" 
+                            required></textarea>
+                            <span class="help-block" ng-if="smsEmailForm.remarks.$dirty && smsEmailForm.remarks.$invalid">
+                                <span>Remarks is Required</span>
+                            </span>
+                        </div>
+                    </div>    
+                    <div class="row form-group">
+                        <div class="col-sm-6 col-sm-offset-5 mt10">
+                            <button type="submit" click-once class="btn btn-info btn-sm" 
+                            ng-disabled="smsEmailForm.$invalid || smsEmailForm.$pristine" ng-if="deleteData.flag == 0"> Deactivate </button>
+                            <button type="submit" click-once class="btn btn-info btn-sm" 
+                            ng-disabled="smsEmailForm.$invalid || smsEmailForm.$pristine" ng-if="deleteData.flag == 1"> Activate </button>
+                            <button type="button" class="btn btn-info btn-sm" ng-click="modalClose()">Cancel</button>
+                        </div>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+    <script>
+    setInterval(function(){
+        $('.testSelAll2').SumoSelect();
+        $('.forms_add').find('.SumoSelect').addClass('singleSelect');
+    },0);
+    </script>

@@ -1,0 +1,91 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Charger-Details" name="Charger-Details" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/charger_details_edit" ng-submit="sendPost('Charger-Details')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.charger_details_id" value="{{efsrData.charger_details_id}}"/>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Charger Make</label>
+				<input type="text" ng-model="efsrData.charger_band" name="charger_band" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+			<md-input-container class="md-default-theme">
+				<label for="input_00D">Charger Manufacturing Date</label>
+				<input ng-model="efsrData.charger_manufacturing_date" name="charger_manufacturing_date" class="datepicker md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="dt" max-date="'22-06-2025'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Charger Serial Number</label>
+				<input type="text" ng-model="efsrData.serial_no" name="serial_no" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Charger Type</label>
+				<input type="text" ng-model="efsrData.charger_type" name="charger_type" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Charger Max Voltage Limit</label>
+				<input type="text" ng-model="efsrData.voltage" name="voltage" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Max Current Limit</label>
+				<input type="text" ng-model="efsrData.charging_current" name="charging_current" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>High Voltage Cut off(V)</label>
+				<input type="text" ng-model="efsrData.high_voltage_cutoff" name="high_voltage_cutoff" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Voltage Ripple(mV)</label>
+				<input type="text" ng-model="efsrData.voltage_ripple" name="voltage_ripple" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Voltage Regulation (V)</label>
+				<input type="text" ng-model="efsrData.voltage_regulation" name="voltage_regulation" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Charger Capacity (V & Amps)</label>
+				<input type="text" ng-model="efsrData.charger_capacity" name="charger_capacity" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="input_00D">Charging Input</label>
+			<select ng-model="efsrData.charger_input" name="charger_input" class="SlectBox form-control">
+				<option value="SINGLE PHASE">SINGLE PHASE</option>
+				<option value="THREE PHASE">THREE PHASE</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="input_00D">Equalize Charg Mode</label>
+			<select ng-model="efsrData.equalize_charger_mode" name="equalize_charger_mode" class="SlectBox form-control">
+				<option value="AVAILABLE"> AVAILABLE </option>
+				<option value="NOT AVAILABLE"> NOT AVAILABLE </option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.equalize_charger_mode == 'AVAILABLE'">
+			<label class="selectlabel" for="valueofequalize">Equalize</label>
+			<select name="valueofequalize" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'J'}">
+				<option value="">Equalize</option>
+				<option value="{{child.label}}" ng-selected="child.label.toUpperCase() == efsrData.valueofequalize" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

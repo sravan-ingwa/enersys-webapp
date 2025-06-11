@@ -1,0 +1,106 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Coach-History" name="Coach-History" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/coach_history_edit" ng-submit="sendPost('Coach-History')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.coach_history_id" value="{{efsrData.coach_history_id}}"/>
+		<!-- <div class="col-lg-4 col-md-4 col-sm-6" ng-controller="noofstringsDropCntrl">
+			<label class="selectlabel">No Of Banks</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="no_of_banks" name="no_of_banks">
+				<option value="">No Of Banks</option>
+				<option ng-repeat="string in noofstring" value="{{string.name}}" ng-selected="efsrData.no_of_banks == string.name">{{string.name}}</option>
+			</select>
+		</div> -->
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.bb_make.length > 0">
+			<md-input-container class="md-default-theme">
+				<label>No Of Banks</label>
+				<input type="text" ng-model="efsrData.no_of_banks" class="md-input ng-touched" readonly />
+			</md-input-container>
+		</div>
+		<div ng-repeat="(key,mibb) in efsrData.bb_make track by key">
+			<input type="hidden" ng-model="efsrData.no_of_banks_id[key]" ng-value="efsrData.no_of_banks_id[key]" name="no_of_banks_id[{{key}}]"/>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="mibb != ''">
+				<md-input-container class="md-default-theme">
+					<label>BB Make - {{key+1}}</label>
+					<input type="text" ng-model="mibb" name="bb_make[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.bb_capacity[key] != ''">
+				<md-input-container class="md-default-theme">
+					<label>BB Capacity - {{key+1}}</label>
+					<input type="text" ng-model="efsrData.bb_capacity[key]" name="bb_capacity[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div ng-controller="DatepickerDemoCtrl">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container flex="" class="md-default-theme">
+						<label for="input_00C">Manufactured Date - {{key+1}}</label>
+						<input type="text" ng-model="efsrData.mfdt_date[key]" name="mfdt_date[{{key}}]" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+					</md-input-container>
+				</div>	
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container flex="" class="md-default-theme">
+						<label for="input_00E">Installation Date - {{key+1}}</label>
+						<input type="text" ng-model="efsrData.installdt_date[key]" name="installdt_date[{{key}}]" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened2')" is-open="opened2" date-greater-than="{{FromDate}}"  min-date="pr" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false">
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Train Number</label>
+				<input type="text" ng-model="efsrData.train_no" name="train_no" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Express Name</label>
+				<input type="text" ng-model="efsrData.express_name" name="express_name" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Coach Number</label>
+				<input type="text" ng-model="efsrData.coach_no" name="coach_no" maxlength="5" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+			<md-input-container class="md-default-theme">
+				<label for="input_00D">Previous Attended Date</label>
+				<input ng-model="efsrData.pre_attnd" name="pre_attnd" class="datepicker md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+			<md-input-container class="md-default-theme">
+				<label for="input_00D">POH Date</label>
+				<input ng-model="efsrData.poh" name="poh" class="datepicker md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+			<md-input-container class="md-default-theme">
+				<label for="input_00D">RPOH Date</label>
+				<input ng-model="efsrData.rpoh" name="rpoh" class="datepicker md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event)" ng-focus="open($event)" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Zone</label>
+				<input type="text" ng-model="efsrData.zone" name="zone" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Division</label>
+				<input type="text" ng-model="efsrData.division" name="division" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Workshop OR Yard</label>
+				<input type="text" ng-model="efsrData.workshop" name="workshop" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,84 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Equipment-Details" name="Equipment-Details" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/equip_details_edit" ng-submit="sendPost('Equipment-Details')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.equip_details_id" value="{{efsrData.equip_details_id}}"/>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Alternator Capacity</label>
+				<input type="text" ng-model="efsrData.alternator_capacity" name="alternator_capacity" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>RRU/ERRU Make(KVA)</label>
+				<input type="text" ng-model="efsrData.rru_make" name="rru_make" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Regulator Make</label>
+				<input type="text" ng-model="efsrData.regulator_make" name="regulator_make" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Voltage Regulation</label>
+				<input type="text" ng-model="efsrData.voltage_regulation" name="voltage_regulation" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Current Limit(AMPS)</label>
+				<input type="text" ng-model="efsrData.current_limit" name="current_limit" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Charging Voltage Cut Off(V)</label>
+				<input type="text" ng-model="efsrData.equip_charger_cut_off" name="equip_charger_cut_off" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>High Voltage Cut off (V)</label>
+				<input type="text" ng-model="efsrData.high_voltage_cut_off" name="high_voltage_cut_off" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="input_00D">Invertor Mode</label>
+			<select ng-model="efsrData.invertor_mode" name="invertor_mode" class="SlectBox form-control">
+				<option value="AUTO" ng-selected="efsrData.invertor_mode == 'AUTO'"> Auto </option>
+				<option value="MANUAL" ng-selected="efsrData.invertor_mode == 'MANUAL'"> Manual </option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Low Voltage Cut off(V)</label>
+				<input type="text" ng-model="efsrData.low_voltage_cut_off" name="low_voltage_cut_off" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Alternator Make</label>
+				<input type="text" ng-model="efsrData.altenate_make" name="altenate_make" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="input_00D">Alternator Belt Status</label>
+			<select ng-model="efsrData.altenate_belt_status" name="altenate_belt_status" class="SlectBox form-control">
+				<option value="OK" ng-selected="efsrData.altenate_belt_status == 'OK'"> Ok </option>
+				<option value="NOT OK" ng-selected="efsrData.altenate_belt_status == 'NOT OK'"> Not Ok </option>
+			</select>
+		</div> 
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Invertor Make</label>
+				<input type="text" ng-model="efsrData.invertor_make" name="invertor_make" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

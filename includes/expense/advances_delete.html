@@ -1,0 +1,53 @@
+<style>
+        .form-group {margin-bottom:0px !important;}
+        .form-group div.col-sm-4{margin-bottom:15px;}
+        .modal-header > .close {right:-30px; top:-12px;}
+        .indent { margin-left: 50px;}
+        .move-down { margin-top: 100px;}
+        .pac-container{z-index:9999 !important;}
+        .singleSelect{width:100%; border-bottom:1px solid #e0e0e0;}
+        .SumoSelect > .optWrapper {right:0px !important;}
+        .SumoSelect > .CaptionCont > span.placeholder {color:#ccc !important;}
+        .singleSelect > .CaptionCont > label > i {color:#000;}
+        .SumoSelect > .optWrapper.open {top:33px !important;}
+        .selectdrop {overflow-y: scroll;}
+        </style>
+        <div ng-controller="warrantycalCtrl">
+            <div class="modal-style" ng-controller="deleteFormCntl">
+                <div class="modal-header clearfix">
+                    <h4 class="modal-title">Are you sure you wish to delete record ?</h4>
+                    <span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal forms_add" name="advDelForm"
+                        reset-directive="singleViews1"
+                        data-went="#/advances" method="delete" 
+                        url="services/expense_tracker/advances_delete" 
+                        ng-submit="deleteDataSubmit()" novalidate>
+                        <input type="hidden" name="request_id" id="request_id" value="{{deleteData.request_id}}"/>
+                        <input type="hidden" name="advance_alias" id="advance_alias" value="{{deleteData.advance_alias}}"/>
+                        <div class="row form-group">
+                            <div class="col-sm-12">
+                                <textarea rows="2" name="remarks" ng-model="deleteData.remarks" 
+                                class="form-control resize-v" placeholder="Remarks" 
+                                required></textarea>
+                                <span class="help-block" ng-if="advDelForm.remarks.$dirty && advDelForm.remarks.$invalid">
+                                    <span>Remarks is Required</span>
+                                </span>
+                            </div>
+                        </div>    
+                        <div class="row form-group">
+                            <div class="col-sm-6 col-sm-offset-5 mt10">
+                                <button type="submit" click-once class="btn btn-info btn-sm" 
+                                ng-disabled="advDelForm.$invalid || advDelForm.$pristine"> Delete </button>
+                                <button type="button" class="btn btn-info btn-sm" ng-click="modalClose()">Cancel</button>
+                            </div>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </div>
+        <script>
+        setInterval(function(){$('.testSelAll2').SumoSelect();
+        $('.forms_add').find('.SumoSelect').addClass('singleSelect');},0);
+        </script>

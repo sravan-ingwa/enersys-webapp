@@ -1,0 +1,128 @@
+<?php
+date_default_timezone_set("Asia/Kolkata");
+include('../mysql.php');
+include('../functions.php');
+include('../mpdf60/mpdf.php');
+$stylesheet = file_get_contents('declaration_pdf.css');
+$mo_alias = $_REQUEST['mo_alias'];
+$body = "<html><body class='fnt_fam_cal'>";
+$body.="<table width='800' class='border1' cellpadding='3' align='center'>";
+    $body.="<tr align='center'>";
+        $body.="<th align='center' class='border1 border_bottom_wh'>";
+            $body.="<table width='100%' class='border_bottom_bl'>";
+                $body.="<tr>";
+                    $body.="<th align='left'>";
+                        $body.="<img src='".baseurl()."images/gallery/EnerSyslogo.png' alt='EnerSys_logo' height='80' width='150'>";
+                        $body.="<p class='conta'>CIN NO : U74999TG2007PTC052642</p>";
+                        $body.="<p class='conta'>E-Mail ID : service@enersys.co.in</p>";
+                    $body.="</th>";
+                   	$body.="<th align='right'>";
+                        $body.="<p class='fnt_sz15 marg_3'>EnerSys India Batteries Private Limited</p>";
+                        $body.="<p class='fnt_sz12'>Factory : Narasimha Rao Palem (V), Veerullapadu (M),</p>";
+                        $body.="<p class='fnt_sz12'>Krishna Dist-521 181, Andhara Pradesh, India.</p>";
+                        $body.="<p class='fnt_sz12'>Ph: +91 8678201214/15</p>";
+                        $body.="<p class='fnt_sz12'>Fax: +91 8678 201 237</p>";
+                        $body.="<p class='fnt_sz12'>www.enersys.co.in</p>";
+                    $body.="</th>";
+                $body.="</tr>";
+            $body.="</table>";
+        $body.="</th>";
+    $body.="</tr>";
+    $body.="<tr>";
+    	$body.="<td align='center' height='1000' valign='top' class='border1'>";
+       		$body.="<table width='100%'>";
+                $body.="<tr>";
+                    $body.="<td align='right' class='fnt_sz13'><b>Date : </b>".alias($mo_alias,'ec_material_outward','alias','date_of_trans')."</td>";
+                $body.="</tr>";
+            $body.="</table>";
+            $body.="<table width='98%' cellpadding='5'>";
+                $body.="<tr>";
+                    $body.="<td align='left'><b>Ref Number </b>: ".alias($mo_alias,'ec_material_outward','alias','trans_id')."</td>";
+                $body.="</tr>";
+                $body.="<tr>";
+                    $body.="<td align='left'><b>TIN Number </b> : 37467760470</td>";
+                $body.="</tr>";
+            $body.="</table>";
+            $body.="<table width='100%' cellpadding='2'>";
+                $body.="<tr>";
+                    $body.="<td align='center'><u><h4 class='marg_2'>TO WHOM EVER IT MAY CONCERN</h4></u></td>";
+                $body.="</tr>";
+            $body.="</table><br>";
+            $body.="<table width='98%' cellpadding='6'>";
+                $body.="<tr>";
+                    $body.="<td class='this_to'><p>This is to certify that the below mentioned VRLA Cells / Accessories are sending to the address, ";
+                         $body.="<b>".getoneremark_all($mo_alias,"MO").". </b>  for warranty replacement purpose only and doesn’t have any commercial value.";
+                    $body.="</p>";
+                $body.="</td></tr>";
+            $body.="</table>";
+            $body.="<table width='100%' cellpadding='6' class='margin_left' style='top:20%;position:absolute;'>";
+                $body.="<tr>";
+                    $body.="<td align='left'><b>The material is not for sale and the commercial value is zero.</b></td>";
+                $body.="</tr>"; 
+            $body.="</table><br>";
+            $body.="<table border='1' id='mytable' width='80%' class='collapse border1' cellpadding='5'>";
+                $body.="<tr align='left'><th>SL NO.</th><th>Capacity</th><th>Item</th><th>Quantity</th></tr>";
+			$sh2_q="SELECT item_code,item_type,item_description,count(id) as cxt FROM ec_material_sent_details WHERE reference='".$mo_alias."' GROUP BY item_code";
+			$sh2_a=mysqli_query($mr_con,$sh2_q);
+			if(mysqli_num_rows($sh2_a)>'0'){$abc=1;$tw=0;
+				while($sh2_r=mysqli_fetch_array($sh2_a)){
+					$body.="<tr>";
+					$body.="<td>".$abc."</td>";
+					if($sh2_r['item_type']=='1'){
+						$body.="<td>".alias($sh2_r['item_code'],'ec_product','product_alias','product_description')."</td>";
+						$body.="<td>Cell</td>";
+						$w1=alias($sh2_r['item_code'],'ec_product','product_alias','weight');
+						$cnt=$sh2_r['cxt'];
+					}
+					if($sh2_r['item_type']=='2'){
+						$body.="<td>".alias($sh2_r['item_code'],'ec_accessories','accessories_alias','accessory_description')."</td>";
+						$body.="<td>Accessory</td>";
+						$w1=alias($sh2_r['item_code'],'ec_accessories','accessories_alias','weight');
+						$cnt=alias($sh2_r['item_description'],'ec_item_code','item_code_alias','quantity');
+					}
+					$body.="<td>".$cnt."</td>";
+					$tw+=$w1*$cnt;
+					$body.="</tr>";
+					$abc++;
+				}
+			}
+            $body.="</table><br>";
+           $body.="<table width='98%' cellpadding='6'>";
+                $body.="<tr>";
+                    $body.="<td align='left'>";
+                    	$body.="<b>Approximate Weight: ".$tw." Kgs</b>";
+                    $body.="</td>";
+                $body.="</tr>";
+			$body.="</table><br><br><br>";
+            
+             $body.="<table width='98%' cellpadding='5'>";
+                $body.="<tr><td align='left'>Thanking and assuring our best service.</td> </tr>";
+                $body.="<tr> <td align='left'>Yours faithfully,</td></tr>";
+                $body.="<tr> <td align='left'>EnerSys Care.</td></tr>";
+			$body.="</table>";
+        $body.="</td>";
+   $body.= "</tr>";
+$body.="</table>";
+$footer.="<p class='gen'><small>*** This is a computer generated statement and does not require any signature or stamp ***</small></p><br/>";
+   $footer.="<table width='100%' cellpadding='1' class='border_top_bl'>";
+		$footer.="<tfoot>";
+			$footer.="<tr><td align='center'>";
+				$footer.="<p class='fnt_sz11 fnt_wt'>Registered Office :EnerSys India Batteries Private Limited, Survey N.118,135,137 & 139, Narasimharaopalem (Village),Veerullapadu (Mandal), VIJAYAWADA ,Krishna (District),
+                Andhra Pradesh-521181, India, Ph :9652525292,E-Mail : service@enersys.co.in</p>";
+			$footer.="</td></tr>";
+	   $footer.="</tfoot><br>";
+	$footer.="</table>";
+$body.="</body></html>";
+	$mpdf=new mPDF('','', 0, '', 5, 5, 5, 5, '', 2, '');
+	//$mpdf->SetHTMLHeader("<p>$header</p>");
+	$mpdf->SetHTMLFooter("<p>$footer</p><p style=\"text-align:right;font-style: italic;font-size:12px;\">{PAGENO}/{nbpg}</p>");
+	$mpdf->pagenumPrefix = 'Page No : ';
+	$mpdf->SetWatermarkImage('../../images/gallery/logo-3.png');
+	$mpdf->showWatermarkImage = true;
+	$mpdf->watermarkImageAlpha = 0.06;
+	$mpdf->WriteHTML($stylesheet,1);
+	$mpdf->WriteHTML($body,2);
+	$filename='Declaration_'.date('d-m-Y_H_i_s');
+	$mpdf->Output("$filename.pdf", "I");
+	exit;
+?>

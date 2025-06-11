@@ -1,0 +1,30 @@
+*{margin:0;padding:0;}
+html,body{width:100%;height:100%;}
+b{font-size:1.17em;}
+.cont_2{
+	width:100%;
+	padding:4px 5px;
+	margin:0px 5px;
+	font-weight:700;
+	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-size:9.5px;
+	vertical-align:top;
+}
+.cont_2 tr td{
+	padding-top:10px;
+}
+.cont_3{
+	width:100%;
+	border-bottom:2px solid #212121;
+	background:#2a6496;
+	color:#FFF;
+	padding:3px 5px;
+	font-weight:700;
+	font-family:"Palatino Linotype", "Book Antiqua", Palatino, serif;
+	margin:5px 8px 0px 8px;
+	font-size:10.5px;
+}
+.botable{border-collapse:collapse;font-size:12px;width:100%;margin:5px 10px 0px 10px;}
+.botable thead th{background:#2a6496; color:#FFF;padding:5px;}
+.botable td, .botable th{border:1px solid #d1d1d1;padding:3px;}
+.subhead td{padding:3px;text-align:center;}

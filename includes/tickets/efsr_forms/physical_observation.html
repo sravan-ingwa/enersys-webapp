@@ -1,0 +1,295 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Physical-Observation" name="Physical-Observation" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/physical_obs_edit" ng-submit="sendPost('Physical-Observation')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.physical_obs_id" value="{{efsrData.physical_obs_id}}"/>
+		<input type="hidden" name="ticket_alias" ng-model="efsrData.ticket_alias" value="{{efsrData.ticket_alias}}"/>
+		<!-- <div class="col-lg-4 col-md-4 col-sm-6" ng-controller="noofstringsDropCntrl">
+			<label class="selectlabel">No Of Banks</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="no_of_banks" name="no_of_banks">
+				<option ng-repeat="string in noofstring" value="{{string.name}}" ng-selected="efsrData.no_of_banks == string.name">{{string.name}}</option>
+			</select>
+		</div> -->
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.bb_make.length > 0">
+			<md-input-container class="md-default-theme">
+				<label>No Of Banks</label>
+				<input type="text" ng-model="efsrData.no_of_banks" class="md-input ng-touched" readonly />
+			</md-input-container>
+		</div>
+		<div ng-repeat="(key,mibb) in efsrData.bb_make track by key">
+			<input type="hidden" ng-model="efsrData.no_of_banks_id[key]" ng-value="efsrData.no_of_banks_id[key]" name="no_of_banks_id[{{key}}]"/>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="mibb != ''">
+				<md-input-container class="md-default-theme">
+					<label>BB Make - {{key+1}}</label>
+					<input type="text" ng-model="mibb" name="bb_make[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.bb_capacity[key] != ''">
+				<md-input-container class="md-default-theme">
+					<label>BB Capacity - {{key+1}}</label>
+					<input type="text" ng-model="efsrData.bb_capacity[key]" name="bb_capacity[{{key}}]" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div ng-controller="DatepickerDemoCtrl">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container flex="" class="md-default-theme">
+						<label for="input_00C">Manufactured Date - {{key+1}}</label>
+						<input type="text" ng-model="efsrData.mfdt_date[key]" name="mfdt_date[{{key}}]" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+					</md-input-container>
+				</div>	
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container flex="" class="md-default-theme">
+						<label for="input_00E">Installation Date - {{key+1}}</label>
+						<input type="text" ng-model="efsrData.installdt_date[key]" name="installdt_date[{{key}}]" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened2')" is-open="opened2" date-greater-than="{{FromDate}}"  min-date="pr" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false">
+					</md-input-container>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Physical Conditions</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.physical_condition" name="physical_condition">
+				<option value="YES" ng-selected="efsrData.physical_condition == 'YES'">DAMAGE</option>
+				<option value="NO" ng-selected="efsrData.physical_condition == 'NO'">GOOD</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.physical_condition == 'YES'">
+			<label class="selectlabel" for="physical_damages">Physical Damages</label>
+			<select name="physical_damages[]" class="SlectBox form-control" multiple ng-repeat="physicalvalue in singleViews | filter:{ref_id:'Q'}">
+				<option value="{{child.label}}" ng-selected="efsrData.physical_damages.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Leakage Conditions</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.leakage_condition" name="leakage_condition">
+				<option value="YES" ng-selected="efsrData.leakage_condition == 'YES'">Leakage</option>
+				<option value="NO" ng-selected="efsrData.leakage_condition == 'NO'">NO Leakage</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.leakage_condition == 'YES'">
+			<label class="selectlabel" for="leakage">Leakage</label>
+			<select name="leakage[]" class="SlectBox form-control" multiple ng-repeat="physicalvalue in singleViews | filter:{ref_id:'O'}">
+				<option value="{{child.label}}" ng-selected="efsrData.leakage.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		
+		
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Room Temperature in <sup>o</sup>C</label>
+				<input type="text" ng-model="efsrData.temperature" name="temperature" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Ambient Temperature in <sup>o</sup>C</label>
+				<input type="text" ng-model="efsrData.ambient_temperature" name="ambient_temperature" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Terminal Torque(12NM)</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.torque" name="torque">
+				<option value="LOOSE" ng-selected="efsrData.torque == 'LOOSE'">LOOSE</option>
+				<option value="PERFECT" ng-selected="efsrData.torque == 'PERFECT'">PERFECT</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.torque == 'LOOSE'" name="torque_loose">
+			<md-input-container class="md-default-theme">
+				<label>No Of Cell Loose(Terminal Torque)</label>
+				<input type="text" ng-model="efsrData.torque_loose" name="torque_loose" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.torque == 'LOOSE'" name="torque_perfect">
+			<md-input-container class="md-default-theme">
+				<label>No Of Cell Tightened(Terminal Torque)</label>
+				<input type="text" ng-model="efsrData.torque_perfect" name="torque_perfect" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		
+		<div ng-if="efsrData.segment_ref=='MP'"> <!-- Motive Power Segment -->
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel" for="general_observation">General Observations</label>
+				<select name="general_observation[]" multiple class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'X'}">
+					<option value="{{child.label}}" ng-selected="efsrData.general_observation.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">Battery Top</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.battery_top" name="battery_top">
+					<option value="CLEAN" ng-selected="efsrData.battery_top == 'CLEAN'">CLEAN</option>
+					<option value="UN CLEANED" ng-selected="efsrData.battery_top == 'UN CLEANED'">UN CLEANED</option>
+				</select>
+			</div>
+			<!-- <div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">BB Condition</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.bb_condition" name="bb_condition">
+					<option value="LIVE" ng-selected="efsrData.bb_condition == 'LIVE'">LIVE</option>
+					<option value="IDLE" ng-selected="efsrData.bb_condition == 'IDLE'">IDLE</option>
+				</select>
+			</div> -->
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>BB Condition</label>
+					<input type="text" ng-model="efsrData.bb_condition" class="md-input ng-touched" readonly />
+				</md-input-container>
+			</div>
+			<div ng-if="efsrData.bb_condition == 'LIVE'">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Electrolyte Temp On Discharge</label>
+						<input type="text" ng-model="efsrData.acid_temp_discharge" name="acid_temp_discharge" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Electrolyte Temp On Charge</label>
+						<input type="text" ng-model="efsrData.acid_temp_charge" name="acid_temp_charge" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Cells Temp After Usage</label>
+						<input type="text" ng-model="efsrData.cells_temp_after_use" name="cells_temp_after_use" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Cells Temp At Charge</label>
+						<input type="text" ng-model="efsrData.cells_temp_at_charge" name="cells_temp_at_charge" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel">Electrolyte Temp Before Charging</label>
+					<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.electrolyte_temp_before" name="electrolyte_temp_before">
+						<option value="<45DEG" ng-selected="efsrData.electrolyte_temp_before == '<45DEG'">LESS THAN 45 DEGREES</option>
+						<option value=">45DEG" ng-selected="efsrData.electrolyte_temp_before == '>45DEG'">GREATER THAN 45 DEGREES</option>
+					</select>
+				</div>
+				<div ng-if="efsrData.electrolyte_temp_before == '>45DEG'">
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<label class="selectlabel">Electrolyte Temp Before Rest Period</label>
+						<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.electrolyte_temp_before_restperiod" name="electrolyte_temp_before_restperiod">
+							<option value="YES" ng-selected="efsrData.electrolyte_temp_before_restperiod == 'YES'">YES</option>
+							<option value="NO" ng-selected="efsrData.electrolyte_temp_before_restperiod == 'NO'">NO</option>
+						</select>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.electrolyte_temp_before_restperiod == 'YES'">
+						<md-input-container class="md-default-theme">
+							<label>Electrolyte Temp Before Hour</label>
+							<input type="text" ng-model="efsrData.electrolyte_temp_before_hr" name="electrolyte_temp_before_hr" class="md-input ng-touched" />
+						</md-input-container>
+					</div>
+				</div>
+				
+				 
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel">Electrolyte Temp After Charging</label>
+					<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.electrolyte_temp_after" name="electrolyte_temp_after">
+						<option value="<45DEG" ng-selected="efsrData.electrolyte_temp_after == '<45DEG'">LESS THAN 45 DEGREES</option>
+						<option value=">45DEG" ng-selected="efsrData.electrolyte_temp_after == '>45DEG'">GREATER THAN 45 DEGREES</option>
+					</select>
+				</div>
+				<div ng-if="efsrData.electrolyte_temp_after == '>45DEG'">
+					<div class="col-lg-4 col-md-4 col-sm-6">
+						<label class="selectlabel">Electrolyte Temp After Rest Period</label>
+						<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.electrolyte_temp_after_restperiod" name="electrolyte_temp_after_restperiod">
+							<option value="YES" ng-selected="efsrData.electrolyte_temp_after_restperiod == 'YES'">YES</option>
+							<option value="NO" ng-selected="efsrData.electrolyte_temp_after_restperiod == 'NO'">NO</option>
+						</select>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.electrolyte_temp_after_restperiod == 'YES'">
+						<md-input-container class="md-default-theme">
+							<label>Electrolyte Temp After Hour</label>
+							<input type="text" ng-model="efsrData.electrolyte_temp_after_hr" name="electrolyte_temp_after_hr" class="md-input ng-touched" />
+						</md-input-container>
+					</div>
+				</div>
+			</div>	
+			
+			
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">DM Water Filling Type</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.dm_water_filling_type" name="dm_water_filling_type">
+					<option value="AUTOMATIC" ng-selected="efsrData.dm_water_filling_type == 'AUTOMATIC'">AUTOMATIC</option>
+					<option value="MANUAL" ng-selected="efsrData.dm_water_filling_type == 'MANUAL'">MANUAL</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">Log Book</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.log_book" name="log_book">
+					<option value="AVAILABLE" ng-selected="efsrData.log_book == 'AVAILABLE'">AVAILABLE</option>
+					<option value="NOTAVAILABLE" ng-selected="efsrData.log_book == 'NOTAVAILABLE'">NOT AVAILABLE</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<input type="hidden" ng-model="efsrData.module['MTPWR'][0]['other_id']" ng-value="efsrData.module['MTPWR'][0]['other_id']" name="MTPWR_other_id" ng-if="efsrData.module['MTPWR'][0]['other_id'] != ''"/>
+				<md-input-container class="md-default-theme">
+					<label>Other Issue</label>
+					<input type="text" ng-model="efsrData.module['MTPWR'][0]['other_issue']" name="MTPWR_other_issue" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+		</div>
+		
+		<div ng-if="efsrData.segment_ref!='MP'"> <!-- Other Than Motive Power Segment -->
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel" for="general_observation">General Observations</label>
+				<select name="general_observation[]" multiple class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'M'}">
+					<option value="{{child.label}}" ng-selected="efsrData.general_observation.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>	
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">Temperature</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.temperature_type" name="temperature_type">
+					<option value="INDOOR" ng-selected="efsrData.temperature_type == 'INDOOR'">INDOOR</option>
+					<option value="OUTDOOR" ng-selected="efsrData.temperature_type == 'OUTDOOR'">OUTDOOR</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.temperature_type == 'INDOOR'" >
+				<label class="selectlabel" for="temp_data">Temperature Condition</label>
+				<select name="temp_data[]" multiple class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'U'}">
+					<option value="{{child.label}}" ng-selected="efsrData.temp_data.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>
+			
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.temperature_type == 'OUTDOOR'" >
+				<label class="selectlabel" for="temp_data">Temperature Condition</label>
+				<select name="temp_data[]" multiple class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'Z'}">
+					<option value="{{child.label}}" ng-selected="efsrData.temp_data.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+				</select>
+			</div>
+			
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<label class="selectlabel">Vent Plug Tightness</label>
+				<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.vent_type" name="vent_type">
+					<option value="LOOSE" ng-selected="efsrData.vent_type == 'LOOSE'">LOOSE</option>
+					<option value="PERFECT" ng-selected="efsrData.vent_type == 'PERFECT'">PERFECT</option>
+				</select>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.vent_type == 'LOOSE'" name="vent_loose">
+				<md-input-container class="md-default-theme">
+					<label>No Of Cell Loose(Vent Plug)</label>
+					<input type="text" ng-model="efsrData.vent_loose" name="vent_loose" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.vent_type == 'LOOSE'" name="vent_perfect">
+				<md-input-container class="md-default-theme">
+					<label>No Of Cell Tightened(Vent Plug)</label>
+					<input type="text" ng-model="efsrData.vent_perfect" name="vent_perfect" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<input type="hidden" ng-model="efsrData.module['PHYOBS'][0]['other_id']" ng-value="efsrData.module['PHYOBS'][0]['other_id']" name="PHYOBS_other_id" ng-if="efsrData.module['PHYOBS'][0]['other_id'] != ''"/>
+				<md-input-container class="md-default-theme">
+					<label>Other Issue</label>
+					<input type="text" ng-model="efsrData.module['PHYOBS'][0]['other_issue']" name="PHYOBS_other_issue" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

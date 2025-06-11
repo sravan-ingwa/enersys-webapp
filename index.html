@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="description" content="EnerSys Care">
+	<meta name="author" content="EnerSys">
+	<META name="ROBOTS" content="NOINDEX, NOFOLLOW">
+	<!-- <base href="/"> -->
+	<title>EnerSys Care</title>
+	<link rel="shortcut icon" href="favicon.ico" />
+	<!-- Icons -->
+	<link rel="stylesheet" href="fonts/ionicons/css/ionicons.min.css">
+	<link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Css/Less Stylesheets -->
+	<link rel="stylesheet" href="styles/angular-material.min.css">
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	
+	<link rel="stylesheet" href="styles/main.min.css">
+	<link rel="stylesheet" href="styles/lazyload/sumoselect.css">
+	<!-- /build -->
+    <link rel="stylesheet" href="styles/lazyload/tables.css">
+    <link rel="stylesheet" href="styles/multiple-select.css">
+	<link rel="stylesheet" href="styles/lazyload/textAngular.css">
+	<!-- <link rel="stylesheet" href="styles/vendors/bootstrap.min.css"> -->
+	<!-- <link rel="stylesheet" href="_tmp/main.min.css"> -->
+ 
+ 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="styles/loading.css">
+	<!-- Match Media polyfill for IE9 -->
+	<!--[if IE 9]> <script src="scripts/ie/matchMedia.js"></script>  <![endif]--> 
+	<style>
+	.site-settings .wrapper{background-color: transparent; padding:0px;}
+	.ticketviesw {
+	  overflow: hidden;
+	  background: #fafafa;
+	  position: fixed;
+	  box-shadow: 4px 0 12px rgba(0, 0, 0, 1);
+	  top: 54.5px;
+	  bottom: 0;
+	  right: 0;
+	  /*width: 550px;*/
+	  -webkit-transform: translate(100%, 0);
+	  -ms-transform: translate(100%, 0);
+	  -o-transform: translate(100%, 0);
+	  transform: translate(100%, 0);
+	  border-left: 1px solid #eeeeee;
+	  -webkit-transition: 0.25s ease-in;
+	  -o-transition: 0.25s ease-in;
+	  transition: 0.25s ease-in;
+	  padding-left:0px;
+	  padding-right:0px;
+	}
+	.ticketviesw h6{color:#2a6496;}
+	.tkt-panel{border-bottom:2px solid #efefef; padding:10px;}
+	.tkt-heading{background-color:#428bca; padding:10px 22px; color:#fff;}
+	.tkt-heading2{background-color:#428bca; padding:10px 22px; color:#fff; position: fixed;right: 0px;left: 0px;top: 0px; width:100%;}
+	
+	/*@media only screen and (min-width : 320px) and (max-width : 590px) {.tkt-heading, .right, .left{float:none;}}*/
+	/* Extra Small Devices, Phones */ 
+	@media only screen and (min-width : 480px) {}
+	/* Small Devices, Tablets */
+	@media only screen and (min-width : 768px){}
+	/* Medium Devices, Desktops */
+	@media only screen and (min-width : 992px) {}
+	/* Large Devices, Wide Screens */
+	@media only screen and (min-width : 1200px) {}
+	/*.bg{width:100%; height:100%; position:fixed; top:0; left:0; z-index:1050; background-color:rgba(0, 0, 0, 0.53) !important;}*/
+	#lockscreen {
+		width: 100%;
+		height: auto;
+		position: absolute;
+		top: 0%;
+		z-index: 1055;
+		display: none;
+	}
+	#screen {
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: #000;
+		min-height:100%;
+		z-index:1050;
+	}
+	.help-block{color:#a94442 !important;}
+	.freez-panel{max-height:580px; overflow-y:scroll;}
+	.mt47{margin-top:47px;}
+	.site-icon{top:38% !important;}
+	.toast{z-index:1090 !important;}	
+	.back-to-top {
+		position: fixed;
+		bottom: 70px;
+		border-radius:100%;
+		right: 25px;
+		z-index: 1000000;
+		width: 46px;
+		height: 46px;
+		background: #428bca;
+		clear:both;
+		cursor:pointer;
+	}
+	.back-to-top .ion {
+		font-size: 25px;
+		padding: 10px 12px;
+		color: #FFF;
+		line-height: 0.7;
+	}
+	@font-face{
+		font-family:FontAwesome;
+		src:url(styles/fontawesome-webfont.eot?v=4.7.0);
+		font-weight:400;
+		font-style:normal;
+	}
+	.fa{
+		display:inline-block;
+		font:normal normal normal 14px/1 FontAwesome;
+		font-size:inherit;
+		text-rendering:auto;
+		-webkit-font-smoothing:antialiased;
+		-moz-osx-font-smoothing:grayscale;
+	}
+	.fa-delete-white:before {
+		content: "\f1f8";
+		color: #FFFFFF;
+	}
+	.fa-delete:before {
+		content: "\f1f8";
+		color: #FFFFFF;
+		padding: 7px 9px;
+		background-color: #E03B1A;
+		border-radius: 4px;
+	}
+	.fa-rotate-right:before {
+		color: #FFFFFF;
+		padding: 7px 9px;
+		background-color: #6200A4;
+		border-radius: 4px;
+	}
+	.fa-spl-edit:before {
+		content: "\f044";
+		color: #FFFFFF;
+		padding: 7px 9px;
+		background-color: #EC9F1A;
+		border-radius: 4px;
+	}
+	.fa-copy:before {
+		content: "\f0c5";
+		color: #FFFFFF;
+		padding: 7px 9px;
+		background-color: #01BBF6;
+		border-radius: 4px;
+	}
+	.fa-ban:before {
+		color: #FFFFFF;
+		padding: 7px 9px;
+		background-color: #E03B1A;
+		border-radius: 4px;
+	}
+	</style>
+	<script>
+    	var BrowserDetect = navigator.userAgent.toLowerCase();
+		if (BrowserDetect.indexOf('chrome') > -1)document.write('<link rel="stylesheet" href="styles/browser_chrome.css">');
+		else if (BrowserDetect.indexOf("firefox") > -1) document.write('<link rel="stylesheet" href="styles/browser_mozilla.css">');
+		else if (BrowserDetect.indexOf(".net") > -1) document.write('<link rel="stylesheet" href="styles/browser_explorer.css">');
+		else document.write('<link rel="stylesheet" href="styles/browser_chrome.css">');
+	</script>
+</head>
+<body ng-app="app" id="app" custom-page class="app off-canvas {{themeActive}}" ng-class="{'body-full': bodyFull}" ng-controller="AppCtrl">
+	<loading></loading>
+    <enerlod></enerlod>
+	<!--<backto></backto>-->
+	<header class="site-head" ng-controller="HeadCtrl" id="site-head" ng-class="{'fixedHeader': fixedHeader}" ng-include="'includes/header.php'"></header>
+	<div class="main-container clearfix" ng-class="{'nav-horizontal': navHorizontal}">
+		<aside class="nav-wrap" ng-class="{'nav-offcanvas': navOffCanvas}" id="site-nav" custom-scrollbar ng-include="'includes/navigation.php' "></aside>
+		<div ng-class="{ 'fixedHeader': fixedHeader}" class="content-container" id="content" ng-view></div>
+	</div>
+    <div class="site-settings clearfix site-icon" ng-class="{'open': isSettingsOpen}" ng-controller="settingsHideCtrl">
+		<div class="settings clearfix" ng-if="settings_hide">
+			<a href="#/settings" md-ink-ripple><span class="trigger ion ion-settings left"></span></a>
+			<div class="wrapper left"></div>
+		</div>
+	</div>
+	<div class="toast toast-topRight">
+		<alert ng-repeat="toast in toasts" type="{{toast.type}}" close="closeAlert($index)" class="toast-{{toast.anim}}">
+			<div ng-bind-html="toast.msg"></div>
+		</alert>
+	</div>
+<!-- #settings --> 
+<div id="lockscreen" oncontextmenu="return false">
+	<div class="page page-auth clearfix loginforms-bdy">
+        <div class="auth-container lock-screen" ng-controller="profileCtrl">
+            <div class="form-container" ng-controller="lockScreenform">
+                <div class="profile clearfix mb20">
+                    <img ng-src="{{singleViews1.emp_name=='ADMIN' ? 'images/batt_hand.png' : singleViews1.profile_pic}}" width="150" height="150" alt="admin">
+                    <h4 class="name">{{singleViews1.emp_name}}</h4>
+                    <p class="text-uppercase">{{singleViews1.privilege_name}}</p>
+                </div>
+				<div class="toast toast-topRight">
+					<alert ng-repeat="toast in toasts" type="{{toast.type}}" close="closeAlert($index)" class="toast-{{toast.anim}}">
+						<div ng-bind-html="toast.msg"></div>
+					</alert>
+				</div>	
+				<form class="form-horizontal forms_lock" method="post" url="services/lockscreen" ng-submit="unLock()">
+					<input type="hidden" name="employee_alias" value="{{singleViews1.employee_alias}}">
+					<md-input-container>
+						<label>Password</label>
+						<input type="password" name="password">
+					</md-input-container>
+					<button type="submit" class="btn btn-success btn-block">Unlock</button>
+				</form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="screen" oncontextmenu="return false"></div>
+	<script src="scripts/vendors.js"></script>
+	<script src="scripts/plugins.js"></script>
+	<script src="scripts/app.js"></script>
+	<script src="scripts/angular-ui-tab-scroll.js"></script>
+	<script src="scripts/ng-pattern-restrict.min.js"></script>
+	<script src="scripts/lazyload/jquery.sumoselect.js"></script>
+	<script src="scripts/textAngular/textAngular-rangy.min.js"></script>
+	<script src="scripts/textAngular/textAngular-sanitize.min.js"></script>
+	<script src="scripts/textAngular/textAngular.min.js"></script>
+    <script src="scripts/formvalidations.js"></script>
+    <script src="scripts/lazyload/select.min.js"></script>
+    <script type='text/javascript' src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAaUYGCjfKVFX6iDfP8uFG7yGzM7nr47Mc"></script>
+	<script src="scripts/ngAutocomplete.js"></script>
+    <script src="scripts/multiple-select.js"></script>
+	<script src="scripts/lazyload/ngMask.min.js"></script>
+	<script src="env.js"></script>
+	<script>
+	$(document).on('keyup keydown keypress','.amttt',function (e){
+		lent=$(this).attr("data-val");
+		if ($(this).val().length > (lent-1)){if(e.which == 8 || e.which == 46 ) return true; else return false;}
+		if(isNaN($(this).val())){$(this).val("");}
+	});
+	
+	var specialKeys = new Array();
+    specialKeys.push(8); //Backspace
+	function IsNumeric(a,e) {
+		var keyCode = e.which ? e.which : e.keyCode
+		var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+		a.parentElement.nextElementSibling.style.display = ret ? "none" : "inline";
+		return ret;
+	}
+/*
+#cycler{position:relative;}
+	#cycler img{position:absolute;z-index:1}
+	#cycler img.active{z-index:3}
+function cycleImages(){
+      var $active = $('#cycler .active');
+      var $next = ($active.next().length > 0) ? $active.next() : $('#cycler img:first');
+      $next.css('z-index',2);//move the next image up the pile
+      $active.fadeOut(1200,function(){//fade out the top image
+	  $active.css('z-index',1).show().removeClass('active');//reset the z-index and unhide the image
+          $next.css('z-index',3).addClass('active');//make the next image the top one
+      });
+    }
+
+$(document).ready(function(){
+// run every 7s
+setInterval('cycleImages()', 1200);
+
+});*/
+	</script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<style>
+		.alignCenter{text-align:center;}
+		th{text-align:center; padding-top:10px !important;}
+		td div, th div, md-input-container{padding:0 !important;}
+	</style>
+	<form class="form-horizontal Battery-Bank-Observations" name="Battery-Bank-Observations" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/telecom_bb_edit" ng-submit="sendPost('Battery-Bank-Observations')" novalidate>
+		<scrollable-tabset api="main.scrlTabsApi" tooltip-left-placement="right" scroll="false" show-drop-down="false" ng-if="efsrData.battery_obs.length > 0">
+			<tabset justified="true" class="tabs-linearrow ticket-mt46">
+				<tab active ng-repeat="(key,btrObs) in efsrData.battery_obs track by key">
+					<tab-heading>{{key + 1}} - {{efsrData.bbcondition[key]}}</tab-heading>
+					<div class="panel-body clearfix tabing-panel" ng-init="
+								head_a = efsrData.header_a[key].length;
+								head_b = efsrData.header_b[key].length;
+								head_c = efsrData.header_c[key].length;
+								head_a = (head_a == null ? 0 : head_a) * 2;
+								head_b = (head_b == null ? 0 : head_b) * 2;
+								head_c = (head_c == null ? 0 : head_c) * 2;
+								remarkShow = efsrData.bb_remarks[key].length > 0 ? true : false;
+								all_head = (head_a + head_b + head_c);
+								head_rowsp = (all_head > 0 ? 3 : 2);
+								ocvShow = efsrData.bbcondition[key] == 'BB IDLE' ? true : false;
+								hspan = 4 + (ocvShow ? 2 : 0) + (remarkShow ? 1 : 0);
+								minWidth = all_head < 5 ? '150' : (all_head > 5 && all_head < 10 ? '230' : (all_head > 10 && all_head < 20 ? '280' : '350'));
+							">
+						<table class="table table-condensed table-hover" border="2" ng-if="efsrData.cell_sl_no[key].length > 0" style="min-width:{{minWidth}}%;overflow-x:auto;">
+							<thead>
+								<tr>
+									<th colspan="{{all_head + hspan}}">
+										<input type="hidden" name="bankid[{{key}}]" ng-model="efsrData.bankid[key]" value="{{efsrData.bankid[key]}}"/>
+										<label>BATTERY BANK RATING :</label> {{efsrData.bank_rating[key]}} <!-- <input type="text" style="color:#000" ng-model="efsrData.bank_rating[key]" name="bank_rating[{{key}}]" class="md-input ng-touched alignCenter" aria-label="false" /> -->
+										<a href="javascript:void(0)" class="alignCenter" tooltip="Delete Bank" tooltip-placement="top" ng-click="bbRowColumnDelete((key + 1) + '-' + efsrData.bbcondition[key], efsrData.bankid[key],'bb')">
+											<span class="fa fa-delete bb_head"></span>
+										</a>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td rowspan="{{head_rowsp}}">S.NO.</td>
+									<td rowspan="{{head_rowsp}}">MFG DT.</td>
+									<td rowspan="{{head_rowsp}}">CELL NO.</td>
+									<!-- <td rowspan="{{head_rowsp}}">Acid Density</td> -->
+									<td rowspan="{{head_rowsp - 1}}" colspan="2" ng-if="ocvShow">OCV</td>
+									<td colspan="{{head_a}}" ng-if="head_a > 0">ONCHARGE VOLT 1</td>
+									<td colspan="{{head_b}}" ng-if="head_b > 0">DISCHARGE VOLT</td>
+									<td colspan="{{head_c}}" ng-if="head_c > 0">ONCHARGE VOLT 2</td>
+									<td rowspan="{{head_rowsp}}" ng-if="remarkShow">REMARKS</td>
+									<td rowspan="{{head_rowsp}}">DELETE</td>
+								</tr>
+								<tr ng-if="all_head > 0">
+									<th colspan="2" ng-repeat="(sub_key,ha) in efsrData.header_a[key] track by sub_key">
+										<input type="hidden" name="hdr_a_id[{{key}}][{{sub_key}}]" ng-model="efsrData.header_a_id[key][sub_key]" value="{{efsrData.header_a_id[key][sub_key]}}"/>
+										<a href="javascript:void(0)" class="alignCenter" tooltip="Delete {{ha}} Column" tooltip-placement="top" ng-click="bbRowColumnDelete(ha,efsrData.header_a_id[key][sub_key],'column')">
+											<span class="fa fa-delete"></span>
+										</a>
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="ha" name="header_a[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</th>
+									<th colspan="2" ng-repeat="(sub_key,hb) in efsrData.header_b[key] track by sub_key">
+										<input type="hidden" name="hdr_b_id[{{key}}][{{sub_key}}]" ng-model="efsrData.header_b_id[key][sub_key]" value="{{efsrData.header_b_id[key][sub_key]}}"/>
+										<a href="javascript:void(0)" class="alignCenter" tooltip="Delete {{hb}} Column" tooltip-placement="top" ng-click="bbRowColumnDelete(hb,efsrData.header_b_id[key][sub_key],'column')">
+											<span class="fa fa-delete"></span>
+										</a>
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="hb" name="header_b[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</th>
+									<th colspan="2" ng-repeat="(sub_key,hc) in efsrData.header_c[key] track by sub_key">
+										<input type="hidden" name="hdr_c_id[{{key}}][{{sub_key}}]" ng-model="efsrData.header_c_id[key][sub_key]" value="{{efsrData.header_c_id[key][sub_key]}}"/>
+										<a href="javascript:void(0)" class="alignCenter" tooltip="Delete {{hc}} Column" tooltip-placement="top" ng-click="bbRowColumnDelete(hc,efsrData.header_c_id[key][sub_key],'column')">
+											<span class="fa fa-delete"></span>
+										</a>
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="hc" name="header_c[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</th>
+								</tr>
+								<tr ng-if="all_head > 0 || ocvShow">
+									<td ng-if="ocvShow">Vol</td><td ng-if="ocvShow">SG</td>
+									<td ng-if="head_a > 0" ng-repeat-start="ha in efsrData.header_a[key] track by $index">Vol</td><td ng-repeat-end>SG</td>
+									<td ng-if="head_b > 0" ng-repeat-start="hb in efsrData.header_b[key] track by $index">Vol</td><td ng-repeat-end>SG</td>
+									<td ng-if="head_c > 0" ng-repeat-start="hc in efsrData.header_c[key] track by $index">Vol</td><td ng-repeat-end>SG</td>
+								</tr>
+								<tr ng-repeat="(sub_key,cellSlNo) in efsrData.cell_sl_no[key] track by sub_key">
+									<input type="hidden" name="row_id[{{key}}][{{sub_key}}]" ng-model="efsrData.telecom_id[key][sub_key]" value="{{efsrData.telecom_id[key][sub_key]}}"/>
+									<input type="hidden" name="rowm_id[{{key}}][{{sub_key}}]" ng-model="efsrData.motive_id[key][sub_key]" value="{{efsrData.motive_id[key][sub_key]}}"/>
+									<td>{{ sub_key + 1 }}</td>
+									<td>
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.mf_date[key][sub_key]" name="mf_date[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td>
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="cellSlNo" name="cellSlNo[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>							
+									<td ng-if="ocvShow" ng-repeat="(super_sub_key,h_o) in efsrData.header_o[key] track by super_sub_key">
+										<input type="hidden" name="hdr_o_id[{{key}}][{{super_sub_key}}]" ng-model="efsrData.header_o_id[key][super_sub_key]" value="{{efsrData.header_o_id[key][super_sub_key]}}"/>
+										<input type="hidden" ng-model="ho" name="ho[{{key}}][{{super_sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.ocv[key][sub_key]" name="ocv[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter tVoltage_o_{{key}}_{{super_sub_key}}" aria-label="false" ng-change="getTotalVoltage('tVoltage_o_' + key + '_' + super_sub_key)" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="ocvShow">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.sg_ocv[key][sub_key]" name="sg_ocv[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false"/>
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-repeat="(super_sub_key,h_a) in [].constructor(head_a) track by $index">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.battery_Volts[key][sub_key][super_sub_key]" name="battery_Volts[{{key}}][{{sub_key}}][{{super_sub_key}}]" class="md-input ng-touched alignCenter tVoltage_a_{{key}}_{{super_sub_key}}" aria-label="false" ng-change="getTotalVoltage('tVoltage_b_' + key + '_' + super_sub_key)" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-repeat="(super_sub_key,h_b) in [].constructor(head_b) track by $index">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.battery_Volts_a[key][sub_key][super_sub_key]" name="battery_Volts_a[{{key}}][{{sub_key}}][{{super_sub_key}}]" class="md-input ng-touched alignCenter tVoltage_b_{{key}}_{{super_sub_key}}" aria-label="false" ng-change="getTotalVoltage('tVoltage_c_' + key + '_' + super_sub_key)" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-repeat="(super_sub_key,h_c) in [].constructor(head_c) track by $index">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.battery_Volts_b[key][sub_key][super_sub_key]" name="battery_Volts_b[{{key}}][{{sub_key}}][{{super_sub_key}}]" class="md-input ng-touched alignCenter tVoltage_c_{{key}}_{{super_sub_key}}" aria-label="false" ng-change="getTotalVoltage('tVoltage_o_' + key + '_' + super_sub_key)" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.bb_remarks[key][sub_key]" name="bb_remarks[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td>
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<a href="javascript:void(0)" class="alignCenter" tooltip="Delete Row" tooltip-placement="top" ng-click="bbRowColumnDelete(cellSlNo,efsrData.telecom_id[key][sub_key],'row')">
+												<span class="fa fa-delete"></span>
+											</a>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<th colspan="3" align="right" style="text-align:right">TOTAL VOLTAGE (V)</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" id="tVoltage_o_{{key}}_{{sub_key}}" ng-model="efsrData.tVoltage_o[key][sub_key]" name="tVoltage_o[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" readonly />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" id="tVoltage_a_{{key}}_{{sub_key}}" ng-model="efsrData.tVoltage_a[key][sub_key]" name="tVoltage_a[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" readonly />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" id="tVoltage_b_{{key}}_{{sub_key}}" ng-model="efsrData.tVoltage_b[key][sub_key]" name="tVoltage_b[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" readonly />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" id="tVoltage_c_{{key}}_{{sub_key}}" ng-model="efsrData.tVoltage_c[key][sub_key]" name="tVoltage_c[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" readonly />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<th colspan="3" align="right" style="text-align:right">BB TERMINAL VOLTAGE</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.bb_ter_o[key][sub_key]" name="bb_ter_o[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.bb_ter_a[key][sub_key]" name="bb_ter_a[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.bb_ter_b[key][sub_key]" name="bb_ter_b[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.bb_ter_c[key][sub_key]" name="bb_ter_c[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<th colspan="3" align="right" style="text-align:right">CURRENT (I)</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">+ 
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.cCurrent_o[key][sub_key]" name="cCurrent_o[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">+  
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.cCurrent_a[key][sub_key]" name="cCurrent_a[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">-  
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.cCurrent_b[key][sub_key]" name="cCurrent_b[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">+  
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.cCurrent_c[key][sub_key]" name="cCurrent_c[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>
+								<tr ng-if="isArray(efsrData.temp_o[key][0])">
+									<th colspan="3" align="right" style="text-align:right">ELECTROLYTE TEMP MIN</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_o[key][sub_key][0]" name="temp_o_min[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_a[key][sub_key][0]" name="temp_a_min[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_b[key][sub_key][0]" name="temp_b_min[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_c[key][sub_key][0]" name="temp_c_min[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>
+								<tr ng-if="isArray(efsrData.temp_o[key][0])">
+									<th colspan="3" align="right" style="text-align:right">ELECTROLYTE TEMP MAX</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_o[key][sub_key][1]" name="temp_o_max[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_a[key][sub_key][1]" name="temp_a_max[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_b[key][sub_key][1]" name="temp_b_max[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_c[key][sub_key][1]" name="temp_c_max[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>
+								<tr ng-if="!isArray(efsrData.temp_o[key][0])">
+									<th colspan="3" align="right" style="text-align:right">TEMPERATURE</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_o[key][sub_key]" name="temp_o[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_a[key][sub_key]" name="temp_a[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_b[key][sub_key]" name="temp_b[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.temp_c[key][sub_key]" name="temp_c[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>							
+								<tr>
+									<th colspan="3" align="right" style="text-align:right">CHARGE VOLTAGE</th>
+									<td colspan="2" ng-if="ocvShow" ng-repeat="(sub_key,h_o) in efsrData.header_o[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.charge_o[key][sub_key]" name="charge_o[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_a) in efsrData.header_a[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.charge_a[key][sub_key]" name="charge_a[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_b) in efsrData.header_b[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.charge_b[key][sub_key]" name="charge_b[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td colspan="2" ng-repeat="(sub_key,h_c) in efsrData.header_c[key] track by sub_key">
+										<div class="col-lg-11 col-md-11 col-sm-11">
+											<md-input-container class="md-default-theme">
+												<input type="text" ng-model="efsrData.charge_c[key][sub_key]" name="charge_c[{{key}}][{{sub_key}}]" class="md-input ng-touched alignCenter" aria-label="false" />
+											</md-input-container>
+										</div>
+									</td>
+									<td ng-if="remarkShow"></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</tab>
+			</tabset>
+		</scrollable-tabset>
+		<table class="table table-condensed table-hover" border="2" ng-if="efsrData.battery_obs.length == 0">
+			<tr><th><p class="text-danger" style="margin:10px;">No Battery Bank Found</p></th></tr>
+		</table>
+		<!-- <div class="panel-body clearfix tabing-panel text-center" ng-if="efsrData.battery_obs.length == 0"><h3 class="text-danger">No Battery Bank Found</h3></div> -->
+		<div class="row form-group">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" ng-disabled="efsrData.battery_obs.length == 0" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

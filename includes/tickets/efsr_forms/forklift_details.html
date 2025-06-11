@@ -1,0 +1,61 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Fork-Lift-Details" name="Fork-Lift-Details" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/fork_lift_edit" ng-submit="sendPost('Fork-Lift-Details')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.fork_lift_id" value="{{efsrData.fork_lift_id}}"/>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Forklift Model</label>
+				<input type="text" ng-model="efsrData.fork_lift_model" name="fork_lift_model" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div ng-controller="DatepickerDemoCtrl">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label for="input_00D">Forklift Manufacturing Date</label>
+					<input type="text" ng-model="efsrData.fork_lift_manf_date" name="fork_lift_manf_date" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label for="input_00D">Forklift Installation Date</label>
+					<input type="text" ng-model="efsrData.forklift_install_date" name="forklift_install_date" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened2')" is-open="opened2" date-greater-than="{{FromDate}}"  min-date="pr" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" show-button-bar="false">
+				</md-input-container>
+			</div>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Forklift Capacity</label>
+				<input type="text" ng-model="efsrData.forlift_capacity" name="forlift_capacity" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+			
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Motor Capacity(KWH)</label>
+				<input type="text" ng-model="efsrData.motor_capacity" name="motor_capacity" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Under Voltage Cut Off(V)</label>
+				<input type="text" ng-model="efsrData.under_voltage_cutoff" name="under_voltage_cutoff" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Max Load Current(AMPS)</label>
+				<input type="text" ng-model="efsrData.max_load_current" name="max_load_current" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Forklift Make</label>
+				<input type="text" ng-model="efsrData.fork_lift_brand" name="fork_lift_brand" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+.page-dashboard .dash-head{padding:5px 20px !important;}
+.pivot-pad{padding: 0px 15px !important;}
+table{margin-bottom:10px !important;}
+.table > tfoot > tr > td {padding:8px !important;}
+table > thead > tr > th {background-color: #428bca; color: #fff; font-size:12px; padding:7px !important;}
+table > tbody > tr > td {font-size:12px; padding:7px !important;}
+.drop-box{min-width:150px; left:auto !important; margin-top:11px; font-size:12px;right: 0px; max-height:150px; overflow-y:scroll; position:absolute;}
+.dropdown-menu{min-width:100px; margin-top:7px;}
+.ticket-grandtotal{  background-color: #428bca;color: #fff;font-weight: 700;}
+.panel-heading a{color:#535353;}
+.right{float:right !important;}
+.SumoSelect > .CaptionCont {border:none !important;background-color:transparent !important; cursor:pointer;   margin-top: -4px;}
+.SumoSelect:focus > .CaptionCont,.SumoSelect:hover > .CaptionCont {box-shadow:none !important;border-color:transparent !important;}
+.SumoSelect > .CaptionCont > span { padding-right:10px !important;}
+.SumoSelect > .CaptionCont > label {right: 0px; bac: #428bca; color: #428bca !important;}
+.SumoSelect > .CaptionCont > span.placeholder {color:#428bca; font-style: inherit;cursor: pointer;}
+.SlectBox {min-width: 150px !important; width:100% !important; padding:10px 5px;}
+.SumoSelect > .optWrapper.open {top: -1px;}
+.SumoSelect > .optWrapper {top: 30px;min-width: 155px !important; right:150px !important; left:auto !important;}
+.SumoSelect .select-all{text-align:left !important; color:#000;}
+.SumoSelect > .optWrapper > .options > li label{color:#000; text-align:left;}
+.SumoSelect > .CaptionCont > label > i {color:#428bca !important;}
+.ticketsetting{width:150px; min-height:35px; background-color:#fff; display:none; position: absolute;z-index: 10;right: 10px; box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.15);}
+.ticketsetting ul{list-style:none; padding:0px !important; margin-bottom:0px !important;}
+.ticketsetting ul li{border-bottom:1px solid #efefef; cursor:pointer;}
+

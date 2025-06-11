@@ -1,0 +1,80 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Customer-Review" name="Customer-Review" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/customer_comments_edit" ng-submit="sendPost('Customer-Review')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.e_sig_id" value="{{efsrData.e_sig_id}}"/>
+		<input type="hidden" name="customer_comment_id" ng-model="efsrData.customer_comment_id" value="{{efsrData.customer_comment_id}}"/>
+		<input type="hidden" name="customer_satis_id" ng-model="efsrData.customer_satis_id" value="{{efsrData.customer_satis_id}}"/>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Customer Name</label>
+					<input type="text" ng-model="efsrData.e_sig_name" name="e_sig_name" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Designation</label>
+					<input type="text" ng-model="efsrData.e_sig_designation" name="e_sig_designation" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Contact Number</label>
+					<input type="text" ng-model="efsrData.e_sig_contact_number" name="e_sig_contact_number" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Customer Email</label>
+					<input type="text" ng-model="efsrData.e_sig_email" name="e_sig_email" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Comments</label>
+					<input type="text" ng-model="efsrData.e_sig_customer_comments" name="e_sig_customer_comments" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Are you satisfied with the Response</label>
+					<input type="text" ng-model="efsrData.q1" name="q1" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+		</div>
+		<div class="row mt10">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Are you satisfied with the Technical Capability of the Service Personnel</label>
+					<input type="text" ng-model="efsrData.q2" name="q2" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Are you satisfied with the professional conduct of the Service Personnel</label>
+					<input type="text" ng-model="efsrData.q3" name="q3" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Are you satisfied with the Service provider</label>
+					<input type="text" ng-model="efsrData.q4" name="q4" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+		</div>
+		<div class="row mt20">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>How do you rate over all after sales Services</label>
+					<input type="text" ng-model="efsrData.q5" name="q5" class="form-control md-input ng-touched" />
+				</md-input-container>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

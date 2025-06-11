@@ -1,0 +1,105 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal General-Observation" name="General-Observation" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/general_obs_edit" ng-submit="sendPost('General-Observation')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.general_obs_id" ng-value="efsrData.general_obs_id"/>
+		<input type="hidden" name="power_id" ng-model="efsrData.power_obs_id" ng-value="efsrData.power_obs_id"/>
+		<input type="hidden" name="ticket_alias" ng-model="efsrData.ticket_alias" value="{{efsrData.ticket_alias}}"/>
+		<!-- <div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">DG Status</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.dg_status" name="dg_status">
+				<option value="">DG Status</option>
+				<option value="AVAILABLE" ng-selected="efsrData.dg_status == 'AVAILABLE'">AVAILABLE</option>
+				<option value="NON DG" ng-selected="efsrData.dg_status == 'NON DG'">NON DG</option>
+			</select>
+		</div> -->
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>DG Status</label>
+				<input type="text" ng-model="efsrData.dg_status" readonly="readonly" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div ng-if="efsrData.dg_status == 'AVAILABLE'">
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel">DG Output</label>
+					<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.dg_output" name="dg_output">
+						<option value="">DG Output</option>
+						<option value="SINGLE PHASE" ng-selected="efsrData.dg_output == 'SINGLE PHASE'">SINGLE PHASE</option>
+						<option value="THREE PHASE" ng-selected="efsrData.dg_output == 'THREE PHASE'">THREE PHASE</option>
+					</select>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel" for="dg_make">DG Make</label>
+					<select name="dg_make" class="SlectBox form-control" ng-repeat="coach in singleViews | filter:{ref_id:'I'}">
+						<option value="">DG Make</option>
+						<option value="{{child.label}}" ng-selected="child.label.toUpperCase() == efsrData.dg_make" ng-repeat="child in coach.children | filter:{flag:'0'}">{{child.label}}</option>
+					</select>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>DG Capacity(KVA)</label>
+						<input type="text" ng-model="efsrData.dg_capacity" name="dg_capacity" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<md-input-container class="md-default-theme">
+						<label>Avg DG Run(HRS/DAY)</label>
+						<input type="text" ng-model="efsrData.avg_dg_run" name="avg_dg_run" class="md-input ng-touched" />
+					</md-input-container>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-6">
+					<label class="selectlabel" for="dg_working_condition">Working Condition</label>
+					<select name="dg_working_condition" class="SlectBox form-control" ng-repeat="coach in singleViews | filter:{ref_id:'J'}">
+						<option value="">Working Condition</option>
+						<option value="{{child.label}}" ng-selected="child.label.toUpperCase() == efsrData.dg_working_condition" ng-repeat="child in coach.children | filter:{flag:'0'}">{{child.label}}</option>
+					</select>
+				</div>
+		</div>
+		
+		<!-- <div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">E.B Supply</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.eb_supply" name="eb_supply">
+				<option value="">E.B Supply</option>
+				<option value="YES" ng-selected="efsrData.eb_supply == 'YES'">YES</option>
+				<option value="NO" ng-selected="efsrData.eb_supply == 'NO'">NO</option>
+			</select>
+		</div> -->
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>E.B Supply</label>
+				<input type="text" ng-model="efsrData.eb_supply" readonly="readonly" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div ng-if="efsrData.eb_supply == 'YES'">
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>No.Of Power Cuts(IN A DAY)</label>
+					<input type="text" ng-model="efsrData.failures_per_day" name="failures_per_day" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<md-input-container class="md-default-theme">
+					<label>Average Power Cut(HRS/DAY)</label>
+					<input type="text" ng-model="efsrData.avg_power_cut" name="avg_power_cut" class="md-input ng-touched" />
+				</md-input-container>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6" ng-controller="DatepickerDemoCtrl">
+				<md-input-container flex="" class="md-default-theme">
+					<label for="input_00C">EB Install Date</label>
+					<input type="text" ng-model="efsrData.ebinstalldate" name="ebinstalldate" class="datepicker ng-pristine ng-valid md-input ng-touched" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" is-open="opened" min-date="'01-01-2000'" max-date="dt" datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  show-button-bar="false"/>
+				</md-input-container>
+			</div>
+		</div>	
+		
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<input type="hidden" ng-model="efsrData.module['GNRLOBS'][0]['other_id']" name="GNRLOBS_other_id" ng-value="efsrData.module['GNRLOBS'][0]['other_id']" class="md-input ng-touched" ng-if="efsrData.module['GNRLOBS'][0]['other_id'] != ''" />
+			<md-input-container class="md-default-theme">
+				<label>Other Issue</label>
+				<input type="text" ng-model="efsrData.module['GNRLOBS'][0]['other_issue']" name="GNRLOBS_other_issue" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-5 mt10">
+				<button type="submit" class="btn btn-info btn-sm">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

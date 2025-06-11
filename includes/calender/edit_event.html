@@ -1,0 +1,185 @@
+<style>
+    .form-group {margin-bottom:15px;}
+    .form-group div.col-sm-4{margin-bottom:15px;}
+    .modal-header > .close {right:-30px; top:-12px;}
+    .singleSelect{width:100%; border-bottom:1px solid #e0e0e0;}
+    .SumoSelect > .optWrapper {right:0px !important;}
+    .SumoSelect > .CaptionCont > span.placeholder {color:#ccc !important;}
+    .singleSelect > .CaptionCont > label > i {color:#000;}
+    .SumoSelect > .optWrapper.open {top:33px !important;}
+    .SumoSelect > .CaptionCont > span {margin-left:0px !important;}
+</style>
+    <div class="modal-style" ng-controller="CalendarDemoCtrl">	<!-- wrapper for specific style -->
+        <div class="modal-header clearfix">
+            <h4 class="modal-title" ng-show="{{detailEvents.event_type == '0'}}">Event Details</h4>
+            <h4 class="modal-title" ng-show="{{detailEvents.event_type == '2'}}">DPR Details </h4>
+            <span class="close ion ion-android-close" ng-click="modalClose()"></span>
+        </div>
+        <div class="modal-body" ng-controller="addingform">
+            <div class="panel mb20 activities" ng-if="detailEvents.event_type == '0'">
+            <form class="form-horizontal forms_add" name="eventForm" method="post" data-went="#/calendar" url="services/calender/event_update" ng-submit="sendPost()" novalidate>
+               <input type="hidden" value="{{detailEvents.event_type}}"  name="event_type">
+               <input type="hidden" value="{{detailEvents.event_alias}}" name="event_alias">
+                <div class="row form-group" ng-if="detailEvents.event_type == '0'">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D">Title</label>
+                            <input ng-model="detailEvents.title" class="ng-pristine ng-valid md-input ng-touched" name="title" required="required">
+                        </md-input-container>
+                    </div>
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D">Description</label>
+                            <input ng-model="detailEvents.service_engineer" class="ng-pristine ng-valid md-input ng-touched" name="description" required="required">
+                        </md-input-container>
+                            <span class="help-block" ng-show="eventForm.description.$dirty && eventForm.description.$invalid">
+                            <span ng-show="eventForm.description.$error.required">Event Description is Required</span>
+                        </span>
+                    </div>
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div ng-controller="DatepickerDemoCtrl">
+                            <md-input-container flex="" class="md-default-theme">
+                                <label for="input_00D">Select Date</label>
+                                <input type="text" class="form-control datepicker border-bottom" name="event_date" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" ng-model="detailEvents.date" is-open="opened" min-date="dt" max-date="'22-06-2025'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" required="required" show-button-bar="false"/>
+                            </md-input-container>
+                                <span class="help-block" ng-show="eventForm.event_date.$dirty && eventForm.event_date.$invalid">
+                                <span ng-show="eventForm.event_date.$error.required">Event Date is Required</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div ng-controller="roleEmpDropCtrl">
+                            <div>
+                                <label class="selectlabel">Employee Role</label>
+                                <select class="form-control selectdrop testSelAll2" name="role_alias1[]" ng-model="detailEvents.role_alias" placeholder="Employee Role"  
+                                ng-init="dep_drop(detailEvents.role_alias,'employee_alias1[]');role_emp_mul_all();" 
+                                data-ng-change="role_emp_mul_all()" multiple="multiple" required>
+                                    <option value="" selected="" disabled="disabled">Employee Role</option>
+                                    <option ng-repeat="emprole in firstDrop" 
+                                    ng-selected="detailEvents.role_alias.indexOf(emprole.alias) != -1"
+                                    value="{{emprole.alias}}">{{emprole.name}}</option>
+                                </select>
+                                <span class="help-block" ng-show="eventForm['role_alias1[]'].$dirty && eventForm['role_alias1[]'].$invalid">
+                                    <span ng-show="eventForm['role_alias1[]'].$error.required">Select Employee Role</span>
+                                </span>
+                            </div>
+                            <div>
+                                <label class="selectlabel">Employee Names</label>
+                                <select class="form-control selectdrop testSelAll2" name="employee_alias1[]" placeholder="Employee Names" ng-model="detailEvents.employee_alias"  multiple="multiple" required>
+                                    <option value="" selected="" disabled="disabled">Employee Names</option>
+                                    <option ng-repeat="emp in secondDrop" 
+                                    ng-selected="detailEvents.employee_name.indexOf(emp.name) != -1"
+                                    value="{{emp.alias}}">{{emp.name}}</option>
+                                </select>
+                                <span class="help-block" ng-show="eventForm['employee_alias1[]'].$dirty && eventForm['employee_alias1[]'].$invalid">
+                                    <span ng-show="eventForm['employee_alias1[]'].$error.required">Select Employee Names</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div ng-controller="dprdropCntrl">
+                            <label class="selectlabel">DPR</label>
+                            <select class="form-control selectdrop testSelAll3" name="dpr_alias" ng-model="detailEvents.dpr" required="required">
+                                <option value="" selected="" disabled="disabled">Select DPR</option>
+                                <option ng-repeat="dprs in firstDrop" 
+                                ng-selected="detailEvents.dpr.indexOf(dprs.name) != -1"
+                                value="{{dprs.alias}}">{{dprs.name}}</option>
+                            </select>
+                            <span class="help-block" ng-show="eventForm.dpr_alias.$dirty && eventForm.dpr_alias.$invalid">
+                                <span ng-show="eventForm.dpr_alias.$error.required">Select DPR</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D"> Created By </label>
+                            <input ng-model="detailEvents.created_by" class="ng-pristine ng-valid md-input ng-touched" name="created_by" style="border-bottom-color: #E0E0E0" disabled>
+                        </md-input-container>
+                    </div>
+
+                    <div class="col-sm-6 col-sm-offset-4">
+                        <button type="submit" click-once class="btn btn-info btn-sm" ng-disabled="eventForm.$invalid">Update Event</button>
+                        <button type="reset" class="btn btn-info btn-sm" ng-click="modalClose()"> Cancel </button>
+                   </div>
+                </div> 
+            </form>
+            </div>
+
+            <div class="panel mb20 activities" ng-if="detailEvents.event_type == '2'">
+            <form class="form-horizontal forms_add" name="eventForm" method="post" data-went="#/calendar" url="services/calender/dpr_update" ng-submit="sendPost()" novalidate>
+                <input type="hidden" value="{{detailEvents.event_type}}"  name="event_type">
+                <input type="hidden" value="{{detailEvents.dpr_alias}}" name="dpr_alias">
+                <input type="hidden" value="{{detailEvents.emp_alias}}" name="employee_alias[]">
+                
+                <div class="row form-group" ng-if="detailEvents.event_type == '2'">
+                
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D"> DPR Ref No </label>
+                            <input ng-model="detailEvents.dpr_ref_no" class="ng-pristine ng-valid md-input ng-touched" name="dpr_ref_no" style="border-bottom-color: #E0E0E0" disabled>
+                        </md-input-container>
+                    </div>
+                    
+                    <div class="col-sm-10 col-sm-offset-1" ng-controller="dprdropCntrl">
+                        <label class="selectlabel"> DPR Category </label>
+                        <select class="form-control selectdrop testSelAll3" name="category" ng-model="detailEvents.category" required="required">
+                           <option value="" selected="" disabled="disabled">Select DPR</option>
+                           <option ng-repeat="dprs in firstDrop" 
+                           ng-selected="detailEvents.category.indexOf(dprs.name) != -1"
+                           value="{{dprs.alias}}">{{dprs.name}}</option>
+                        </select>
+                        <span class="help-block" ng-show="eventForm.dpr_alias.$dirty && eventForm.dpr_alias.$invalid">
+                           <span ng-show="eventForm.dpr_alias.$error.required">Select DPR</span>
+                       </span>
+                    </div>
+
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div ng-controller="DatepickerDemoCtrl">
+                            <md-input-container flex="" class="md-default-theme">
+                                <label for="input_00D">Event Date</label>
+                                <input type="text" class="form-control datepicker border-bottom" name="sub_date_time" placeholder="Select date.." datepicker-popup="{{format}}" ng-click="open($event,'opened')" ng-focus="open($event,'opened')" ng-model="detailEvents.sub_date_time" is-open="opened" min-date="dt" max-date="'22-06-2025'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" required="required" show-button-bar="false"/>
+                            </md-input-container>
+                                <span class="help-block" ng-show="eventForm.sub_date_time.$dirty && eventForm.sub_date_time.$invalid">
+                                <span ng-show="eventForm.sub_date_time.$error.required">Event Date is Required</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D"> Remarks </label>
+                            <input ng-model="detailEvents.remarks" class="ng-pristine ng-valid md-input ng-touched" name="remarks" required="required">
+                        </md-input-container>
+                    </div>
+                    
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D"> Expense Incurred </label>
+                            <input ng-model="detailEvents.expense_incurred" class="ng-pristine ng-valid md-input ng-touched" name="expense_incurred" required="required">
+                        </md-input-container>
+                    </div>
+
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <md-input-container flex="" class="md-default-theme">
+                            <label for="input_00D"> Tracking Alias </label>
+                            <input ng-model="detailEvents.tracking_alias" class="ng-pristine ng-valid md-input ng-touched" name="tracking_alias" style="border-bottom-color: #E0E0E0" disabled>
+                        </md-input-container>
+                    </div>
+                    
+                    <div class="col-sm-6 col-sm-offset-4">
+                        <button type="submit" click-once class="btn btn-info btn-sm" ng-disabled="eventForm.$invalid" ng-if="detailEvents.event_type == 0">Update Event</button>
+                        <button type="submit" click-once class="btn btn-info btn-sm" ng-disabled="eventForm.$invalid" ng-if="detailEvents.event_type == 2">Update DPR</button>
+                        <button type="reset" class="btn btn-info btn-sm" ng-click="modalClose()"> Cancel </button>
+                   </div>
+                </div>  
+            </form>
+            </div>
+        </div>
+    </div>
+<script>
+    setInterval(function(){$('.testSelAll2').SumoSelect({selectAll:true});
+    $('.testSelAll3').SumoSelect();
+    $('.forms_add').find('.SumoSelect').addClass('singleSelect');},0);
+</script>

@@ -1,0 +1,1 @@
+{"reg_id":"APA91bGAnuvzvWeydstupy-rtjlecadTNiVh89crIX5WpkwOYSEXMEvdOIZC3pzmlW2ejMobw88KbBgXjJjHqbRJQ1TfzVuwPE1iNL_VwSe3q975--vM5WPhEQHYkuTv67aQEqm4lXm_","pin":"8485","device_id":"357386068766924","emp_id":"Lingaraj Swain"}

@@ -1,0 +1,113 @@
+<div class="form-group" ng-controller="efsrEditFormCntl">
+	<form class="form-horizontal Check-Points" name="Check-Points" data-went="#/tickets" method="post" url="services/tickets/efsr_services.php/check_points_edit" ng-submit="sendPost('Check-Points')" novalidate>
+		<input type="hidden" name="id" ng-model="efsrData.check_points_id" value="{{efsrData.check_points_id}}"/>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">ICC Tightness</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.icc_tightness" name="icc_tightness">
+				<option value="">ICC Tightness</option>
+				<option value="YES" ng-selected="efsrData.icc_tightness == 'YES'">YES</option>
+				<option value="NO" ng-selected="efsrData.icc_tightness == 'NO'">NO</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Any Heating OR Melt Marks</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.heating_melting_marks" name="heating_melting_marks">
+				<option value="">Any Heating OR Melt Marks</option>
+				<option value="YES" ng-selected="efsrData.heating_melting_marks == 'YES'">YES</option>
+				<option value="NO" ng-selected="efsrData.heating_melting_marks == 'NO'">NO</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Terminal Tightness</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.terminal_tightness" name="terminal_tightness">
+				<option value="">Terminal Tightness</option>
+				<option value="YES" ng-selected="efsrData.terminal_tightness == 'YES'">YES</option>
+				<option value="NO" ng-selected="efsrData.terminal_tightness == 'NO'">NO</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Physical Damage</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.physical_damage" name="physical_damage">
+				<option value="">Physical Damage</option>
+				<option value="YES" ng-selected="efsrData.physical_damage == 'YES'">DAMAGE</option>
+				<option value="NO" ng-selected="efsrData.physical_damage == 'NO'">GOOD</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.physical_damage == 'YES'">
+			<label class="selectlabel" for="valuephysicalcondition">Physical Conditions</label>
+			<select name="physical_condition[]" multiple ng-model="efsrData.valuephysicalcondition" class="SlectBox form-control" ng-repeat="physicalvalue in singleViews | filter:{ref_id:'Q'}">
+				<option value="">Select Physical Conditions</option>
+				<option value="{{child.label}}" ng-selected="efsrData.valuephysicalcondition.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in physicalvalue.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Alternate No Of Belts Available</label>
+				<input type="text" ng-model="efsrData.alt_no_belt_avl" name="alt_no_belt_avl" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Leakage</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.any_leakage" name="leakage">
+				<option value="">Leakage</option>
+				<option value="YES" ng-selected="efsrData.any_leakage == 'YES'">Leakage</option>
+				<option value="NO" ng-selected="efsrData.any_leakage == 'NO'">NO Leakage</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6" ng-if="efsrData.any_leakage == 'YES'">
+			<label class="selectlabel" for="valueleakagecondition">Leakage Conditions</label>
+			<select name="leakage_condition[]" multiple ng-model="efsrData.valueleakagecondition" class="SlectBox form-control" ng-repeat="leak in singleViews | filter:{ref_id:'O'}">
+				<option value="">Select Leakage Conditions</option>
+				<option value="{{child.label}}" ng-selected="efsrData.valueleakagecondition.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in leak.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Log Book</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.log_book" name="log_book">
+				<option value="">Log Book</option>
+				<option value="VERIFIED" ng-selected="efsrData.log_book == 'VERIFIED'">VERIFIED</option>
+				<option value="NO VERIFIED" ng-selected="efsrData.log_book == 'NO VERIFIED'">NO VERIFIED</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel" for="coach_status">Coach Status</label>
+			<select name="coach_status[]" multiple ng-model="efsrData.coach_status" class="SlectBox form-control" ng-repeat="coach in singleViews | filter:{ref_id:'H'}">
+				<option value="">Coach Status</option>
+				<option value="{{child.label}}" ng-selected="efsrData.coach_status.indexOf(child.label.toUpperCase()) !== -1" ng-repeat="child in coach.children | filter:{flag:'0'}">{{child.label}}</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Vent Plug Tightness</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.vent_plug_tightness" name="vent_plug_tightness">
+				<option value="">Vent Plug Tightness</option>
+				<option value="YES" ng-selected="efsrData.vent_plug_tightness == 'YES'">YES</option>
+				<option value="NO" ng-selected="efsrData.vent_plug_tightness == 'NO'">NO</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Vent Belt</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.belt" name="belt">
+				<option value="">Vent Belt</option>
+				<option value="LOOSE" ng-selected="efsrData.belt == 'LOOSE'">LOOSE</option>
+				<option value="NORMAL" ng-selected="efsrData.belt == 'NORMAL'">NORMAL</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<label class="selectlabel">Cell Budge</label>
+			<select class="form-control testSelAll2 selectdrop" ng-model="efsrData.cell_buldge" name="cell_buldge">
+				<option value="">Cell Budge</option>
+				<option value="YES" ng-selected="efsrData.cell_buldge == 'YES'">YES</option>
+				<option value="NO" ng-selected="efsrData.cell_buldge == 'NO'">NO</option>
+			</select>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-6">
+			<md-input-container class="md-default-theme">
+				<label>Terminal Temperature</label>
+				<input type="text" ng-model="efsrData.terminal_temp" name="terminal_temp" class="md-input ng-touched" />
+			</md-input-container>
+		</div>
+		<div class="col-sm-6 col-sm-offset-5 mt10">
+			<button type="submit" class="btn btn-info btn-sm">Update</button>
+		</div>
+	</form>
+</div>

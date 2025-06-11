@@ -1,0 +1,81 @@
+<style>
+.form-group {margin-bottom:0px !important;}
+.form-group div.col-md-4, .form-group div.col-sm-6{margin-bottom:15px;height:57px;}
+.modal-header > .close {right:-30px; top:-12px;}
+.indent { margin-left: 50px;}
+.move-down { margin-top: 100px;}
+.pac-container{z-index:9999 !important;}
+.singleSelect{width:100%; border-bottom:1px solid #e0e0e0;}
+.SumoSelect > .optWrapper {right:0px !important;}
+.SumoSelect > .CaptionCont > span.placeholder {color:#ccc !important;}
+.singleSelect > .CaptionCont > label > i {color:#000;}
+.SumoSelect > .optWrapper.open {top:33px !important;}
+.selectdrop {overflow-y: scroll;}
+input[readonly] { background-color: #eeeeee; cursor: not-allowed; }
+</style>
+<div class="modal-style" ng-controller="ticketEditEfsrCntl">	<!-- wrapper for specific style -->
+	<div ng-if="efsrData.segment_name != '' && efsrData.segment_name != null">
+		<div class="modal-header clearfix">
+			<h4 class="modal-title">Ticket e-FSR Edit [{{efsrData.ticket_id}}] (<small class="modal-title">{{efsrData.segment_name}}</small>)</h4>
+			<span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+		</div>
+		<div class="modal-body">
+			<div class="row form-group">
+				<scrollable-tabset api="main.scrlTabsApi" tooltip-left-placement="right" scroll-by="150" show-drop-down="false">
+					<tabset justified="true" class="tabs-linearrow ticket-mt46">
+						<tab active="val.key === activeTab" ng-repeat="(key, val) in forms" ng-click="tabSelected(val.key)" ng-if="val.display">
+							<tab-heading> {{val.name}} </tab-heading>
+							<div class="panel-body clearfix tabing-panel">
+								<div class="row" ng-if="val.key == 'Physical_Observation'">
+									<physical-observation></physical-observation>
+								</div>
+								<div class="row" ng-if="val.key == 'Generator_Observation'">
+									<generator-observation></generator-observation>
+								</div>
+								<div class="row" ng-if="val.key == 'History_of_Coach'">
+									<history-of-coach></history-of-coach>
+								</div>
+								<div class="row" ng-if="val.key == 'Equipment_Details'">
+									<equipment-details></equipment-details>
+								</div>
+								<div class="row" ng-if="val.key == 'Check_Points'">
+									<check-points></check-points>
+								</div>
+								<div class="row" ng-if="val.key == 'Charger_Details'">
+									<charger-details></charger-details>
+								</div>
+								<div class="row" ng-if="val.key == 'Forklift_Details'">
+									<forklift-details></forklift-details>
+								</div>
+								<div class="row" ng-if="val.key == 'Battery_Details'">
+									<battery-details></battery-details>
+								</div>
+								<div class="row" ng-if="val.key == 'SMPS_Observation'">
+									<smps-observation></smps-observation>
+								</div>
+								<div class="row" ng-if="val.key == 'Battery_Observation'">
+									<battery-observation></battery-observation>
+								</div>
+								<div class="row" ng-if="val.key == 'Motive_Battery_Observation'">
+									<motive-battery-observation></motive-battery-observation>
+								</div>
+								<div class="row" ng-if="val.key == 'Service_Engineer_Observation'">
+									<service-engineer-observation></service-engineer-observation>
+								</div>
+								<div class="row" ng-if="val.key == 'Customer_Comments'">
+									<customer-comments></customer-comments>
+								</div>
+							</div>
+						</tab>
+					</tabset>
+				</scrollable-tabset>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	setInterval(function(){
+		$('.testSelAll2').SumoSelect();
+		$('form').find('.SumoSelect').addClass('singleSelect');
+	},0);
+</script>

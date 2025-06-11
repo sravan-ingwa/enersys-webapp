@@ -1,0 +1,668 @@
+<style>
+.modal-header > .close {right: -30px;top: -12px;}
+.panel-heading b{color:#428bca; margin-right:20px;}.panel-heading i{color:#428bca;}.panel-heading span{color:#428bca}
+.panel-info > .panel-heading { color: #ffffff !important; background-color: #428bca; border-color: #428bca;}
+.panel-info > .panel-heading span{color:#fff;}
+.panel-info > .panel-heading i{color:#fff;}
+.panel-info > .panel-heading b{color:#fff;}
+.right a span{color:#428bca;}
+.exp_sing{padding:8px !important; margin:0px !important; background-color:#f5f5f5 !important;}
+.exp_sing b{color:#535353}
+.singPad{padding:5px 25px;}
+.line_hg{line-height:0.5 !important;}
+.form-group {margin-bottom: 0px !important;}
+.bs-callout{margin:5px 0px 5px 13px;}
+.padRow{padding:0px 41px 4px 11px;}
+</style>
+<div class="modal-style" ng-controller="expenseSingCtrl">	<!-- wrapper for specific style -->
+	<div class="modal-header clearfix">
+		<h4 class="modal-title">View Expenses
+            <div class="right">
+                <div class="btn-group btn-group-xs">
+                    <a href="" class="btn btn-default" tooltip="Edit" tooltip-placement="bottom" ng-click="expensesReadeditOpen(); modalClose(); editreadExp(expenseViews.expenses_alias)" ng-if="expenseViews.edit != '' && expenseViews.readonly_page == '1' && expenseViews.service_dept_onroll == '0'"><span class="ion ion-compose"></span></a>
+                    <a href="" class="btn btn-default" tooltip="Edit" tooltip-placement="bottom" ng-click="serExpensesReadeditOpen(); modalClose(); editreadExp(expenseViews.expenses_alias)" ng-if="expenseViews.edit != '' && expenseViews.readonly_page == '1' && expenseViews.service_dept_onroll == '1'"><span class="ion ion-compose"></span></a>
+                    <a href="services/expense_tracker/ser_expenses_print.php?alias={{expenseViews.expenses_alias}}" target="_blank" tooltip="Print" class="btn btn-default" tooltip-placement="bottom" ng-if="expenseViews.service_dept_onroll == '1'"><span class="ion ion-android-print"></span></a>
+                    <a href="services/expense_tracker/oth_expenses_print.php?alias={{expenseViews.expenses_alias}}" target="_blank" tooltip="Print" class="btn btn-default" tooltip-placement="bottom" ng-if="expenseViews.service_dept_onroll == '0'"><span class="ion ion-android-print"></span></a>
+                    <a href="services/expense_tracker/ser_expenses_download.php?alias={{expenseViews.expenses_alias}}" target="_blank" tooltip="Download" class="btn btn-default" tooltip-placement="bottom"  ng-if="expenseViews.service_dept_onroll == '1'"><span class="ion ion-android-download"></span></a>
+                    <a href="services/expense_tracker/oth_expense_download.php?alias={{expenseViews.expenses_alias}}" target="_blank" tooltip="Download" class="btn btn-default" tooltip-placement="bottom"  ng-if="expenseViews.service_dept_onroll == '0'"><span class="ion ion-android-download"></span></a>
+                   <!-- <a href="" tooltip="Send" class="btn btn-default" tooltip-placement="bottom" ng-click="emailSend(expenseViews.expenses_alias);"><span class="ion ion-paper-airplane"></span></a>-->
+                    <a href="" tooltip="Delete" class="btn btn-default" tooltip-placement="bottom" ng-click="delExp(expenseViews.expenses_alias);" ng-if="expenseViews.ref2 == '0'"><span class="ion ion-android-delete"></span></a>
+                </div>
+            </div>
+        </h4>
+		<span class="close ion ion-android-close" ng-click="modalClose()"></span>
+	</div>
+     
+	<div class="modal-body aran" ng-controller="mainexpCtrl">
+         <div class="row padRow">
+            <div class="col-md-12 bs-callout">
+                <div class="col-md-5">
+                    <h4>Bill Number:  <span> {{expenseViews.bill_number}}</span></h4>
+                </div>
+                <div class="col-md-5">
+                    <h4>Date of Request: <span> {{expenseViews.requested_date}}</span></h4>
+                </div>
+                <div class="col-md-2 btn-group btn-group-xs">
+                    <a tooltip="Edit" class="btn btn-default right" tooltip-placement="bottom" ng-click="mainExpOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><span class="ion ion-compose" style="line-height:1; color:#428bca;"></span></a>
+                </div>
+                 <div class="col-md-5">
+                    <h4>Employee Name: <span> {{expenseViews.employee_name}}</span></h4>
+                </div>
+                <div class="col-md-5">
+                    <h4>Employee ID:  <span>{{expenseViews.employee_id}} </span></h4>
+                </div>
+                <div class="col-md-5">
+                    <h4>Grade:  <span>{{expenseViews.grade}}</span></h4>
+                </div>
+                 <div class="col-md-5">
+                    <h4>Places Of Visit: <span> {{expenseViews.places_of_visit}}</span></h4>
+                </div>
+                 <div class="col-md-5">
+                    <h4>Period Of Visit From: <span> {{expenseViews.period_of_visit_from}}</span></h4>
+                </div>
+                <div class="col-md-5">
+                    <h4>Period Of Visit To:  <span> {{expenseViews.places_of_visit_to}}</span></h4>
+                </div>
+                <div class="col-md-5">
+                    <h4>Purpose: <span> {{expenseViews.purpose}}</span></h4>
+                </div>
+                <!-- <div class="col-md-5">
+                    <h4>PO /GNR Number:  <span>{{expenseViews.po_gnr}}</span></h4>
+                </div> -->
+          </div> 
+          <div class="col-md-5 bs-callout">
+                <div>
+                    <h4>UTR Number:  <span>{{expenseViews.utr_num}}</span></h4>
+                </div>
+          </div>
+          <div class="col-md-5 bs-callout" ng-if="expenseViews.show_report">
+            <div>
+                <h4>Tour Planning Report:
+                    <span ng-if="expenseViews.report != ''"><a href="{{expenseViews.report}}" target="_blank"><span style="color:red">Click</span></a></span>
+                    <span ng-if="expenseViews.report == ''">-NA-</a></span>
+                </h4>
+            </div>
+          </div>
+        </div>
+        <div class="row form-group mt10" style="padding:5px 15px;" ng-if="expenseViews.service_dept_onroll == '1'" ng-init="dprreadViews(expenseViews.period_of_visit_from,expenseViews.places_of_visit_to,expenseViews.empalias)">  
+            <div class="col-lg-12 dprDetails">
+                <label>DPR Details : </label>
+                <table class="table table-bordered">
+                    <thead><tr class="blue cust"><th>DPR Number</th><th>Category</th><th>Submitted Date</th><th>Remarks</th><th>Expense</th></tr></thead>
+                    <tbody>
+                       <tr ng-repeat="dpr in dprViews.dprDetails">
+                        <td>{{dpr.dpr_ref_no}}</td>
+                        <td>{{dpr.dpr_cat}}</td>
+                        <td>{{dpr.sub_date}}</td>
+                        <td>{{dpr.dpr_remarks}}</td>
+                        <td>{{dpr.expense_incurred}}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot ng-if="dprViews.dprDetails.length=='0'"><tr><td colspan="5">No Records</td></tr></tfoot>
+                </table>
+            </div>
+        </div>
+      	<div class="row"> 
+        <div class="col-sm-12 singPad">
+            <h4>Expense Details:</h4>
+            <div ng-if="expenseViews.service_dept_onroll == '0'">
+            <!-- accordion -->
+            <accordion class="accordion-panel" >
+            	<div class="panel panel-default panel-hovered" ng-controller="convy_O_EditCtrl">
+                <div class="panel-heading exp_sing">CONVEYANCE &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addOConOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a> 
+                 <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_con_amt}}</b></div>
+                    <!--local conveyance accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_con_count > '0'">
+                        <accordion-group is-open="lc_status.open" ng-class="{'panel-info': lc_status.open}" ng-repeat="(key,con) in expenseViews.exp_conveyance">
+                        <accordion-heading>
+                            CONVEYANCE {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': lc_status.open, 'ion-chevron-right': !lc_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(con.alias,con.expenses_alias,'co',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editOConExp(con.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{con.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Date of Travel</h5>
+                              <span class="fnt-size-11">{{con.date_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Mode of Travel</h5>
+                              <span class="fnt-size-11">{{con.mode_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>From</h5>
+                              <span class="fnt-size-11">{{con.from_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>To</h5>
+                              <span class="fnt-size-11">{{con.to_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Files</h5>
+                              <span class="fnt-size-11" ng-if="con.document_link != ''"><a href="{{con.document_link}}" target="_blank"><span style="color:red">Click</span></a></span>
+                              <span class="fnt-size-11" ng-if="con.document_link == ''">-NA-</a></span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{con.amount}}</span>
+                            </div>
+                            </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_con_count == '0'">No Records</div>
+                </div>
+            
+            	<div class="panel panel-default panel-hovered" ng-controller="locConvy_O_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">LOCAL CONVEYANCE &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addOLocOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a> 
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_lcon_amt}}</b></div>
+                    <!-- conveyance accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_lcon_count > '0'">
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}" ng-repeat="(key,loc) in expenseViews.exp_locconveyance">
+                        <accordion-heading>
+                           LOCAL CONVEYANCE {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                           <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(loc.alias,loc.expenses_alias,'lc',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                           <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editOExp(loc.alias)" ng-if="expenseViews.single_edit"></span>
+                           <span class="right mr10">Rs: {{loc.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Date of travel</h5>
+                              <span class="fnt-size-11">{{loc.date_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Mode of travel</h5>
+                              <span class="fnt-size-11">{{loc.mode_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>From</h5>
+                              <span class="fnt-size-11">{{loc.from_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>To</h5>
+                              <span class="fnt-size-11">{{loc.to_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{loc.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_lcon_count == '0'">No Records</div>
+                </div>
+                
+                <div class="panel panel-default panel-hovered" ng-controller="lod_O_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">LODGING &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addOLodOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a>
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_lod_amt}}</b></div>
+                    <!-- Lodging accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_lod_count > '0'">
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}" ng-repeat="(key,lod) in expenseViews.exp_lodging">
+                        <accordion-heading>
+                            LODGING {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(lod.alias,lod.expenses_alias,'ld',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editOLod(lod.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{lod.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Stay Type</h5>
+                              <span class="fnt-size-11">{{lod.type_of_stay}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check in Date</h5>
+                              <span class="fnt-size-11">{{lod.check_in}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check out Date</h5>
+                              <span class="fnt-size-11">{{lod.check_out}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Hotel Name</h5>
+                              <span class="fnt-size-11">{{lod.hotel_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Files</h5>
+                              <span class="fnt-size-11" ng-if="lod.document_link != ''"><a href="{{lod.document_link}}" target="_blank"><span style="color:red">Click</span></a></span>
+                              <span class="fnt-size-11" ng-if="lod.document_link == ''">-NA-</a></span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{lod.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_lod_count == '0'">No Records</div>
+                </div>
+
+                <div class="panel panel-default panel-hovered" ng-controller="bod_O_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">BOARDING &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addOBodOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a>
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_bod_amt}}</b></div>
+                    <!-- Lodging accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_bod_count > '0'" >
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}" ng-repeat="(key,bod) in expenseViews.exp_boarding">
+                        <accordion-heading>
+                            BOARDING {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(bod.alias,bod.expenses_alias,'bd',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editOBod(bod.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{bod.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check in Date</h5>
+                              <span class="fnt-size-11">{{bod.check_in}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check out Date</h5>
+                              <span class="fnt-size-11">{{bod.check_out}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>State</h5>
+                              <span class="fnt-size-11">{{bod.state}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{bod.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                     <div class="noRec panel-group" ng-if="expenseViews.exp_bod_count == '0'">No Records</div>
+                </div>
+                
+                <div class="panel panel-default panel-hovered" ng-controller="oth_O_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">OTHERS &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addOOthOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a>
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_oth_amt}}</b></div>
+                    <!-- Lodging accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_oth_count > '0'">
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}" ng-repeat="(key,oth) in expenseViews.exp_others">
+                        <accordion-heading>
+                            OTHERS {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(oth.alias,oth.expenses_alias,'ot',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editOOth(oth.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{oth.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Description</h5>
+                              <span class="fnt-size-11">{{oth.description}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Date</h5>
+                              <span class="fnt-size-11">{{oth.checked_date}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Files</h5>
+                              <span class="fnt-size-11" ng-if="oth.document_link != ''"><a href="{{oth.document_link}}" target="_blank"><span style="color:red;">Click</span></a></span>
+                              <span class="fnt-size-11" ng-if="oth.document_link == ''">-NA-</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{oth.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                     <div class="noRec panel-group" ng-if="expenseViews.exp_oth_count == '0'">No Records</div>
+                </div>
+            </accordion>
+            <!-- #end accordion -->
+          </div>
+          
+         	<div ng-if="expenseViews.service_dept_onroll == '1'">
+            <accordion class="accordion-panel" >
+               <div class="panel panel-default panel-hovered" ng-controller="locConvy_S_EditCtrl">
+                <div class="panel-heading exp_sing">LOCAL CONVEYANCE &nbsp;
+                 <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addLocOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a>
+                  <b class="right" style="margin-right:10px !important;">Rs: {{expenseViews.tot_lcon_amt}}</b></div>
+                    <!--local conveyance accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_lcon_count > '0'">
+                        <accordion-group is-open="lc_status.open" ng-class="{'panel-info': lc_status.open}" ng-repeat="(key,loc) in expenseViews.exp_locconveyance">
+                            <accordion-heading>
+                                <span>LOCAL CONVEYANCE {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': lc_status.open, 'ion-chevron-right': !lc_status.open}"></i></span>
+                                <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(loc.alias,loc.expenses_alias,'lc',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                                <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editExp(loc.alias)" ng-if="expenseViews.single_edit"></span>
+                                <span class="right mr10 mt1">Rs: {{loc.amount}}</span>
+                            </accordion-heading>
+                            <div class="row">
+                            <div ng-if="loc.bucket != ''">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Zone</h5>
+                              <span class="fnt-size-11">{{loc.zone_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>State</h5>
+                              <span class="fnt-size-11">{{loc.state_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>District</h5>
+                              <span class="fnt-size-11">{{loc.district_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Area</h5>
+                              <span class="fnt-size-11">{{loc.area}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Bucket</h5>
+                              <span class="fnt-size-11">{{loc.bucket}}</span>
+                            </div>
+                            <div ng-if="loc.bucket != 'Local Conveyance'">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Capacity</h5>
+                              <span class="fnt-size-11">{{loc.capacity}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Weight of the cell</h5>
+                              <span class="fnt-size-11">{{loc.weight}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Quantity</h5>
+                              <span class="fnt-size-11">{{loc.quantity}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>No.Of Kilometers</h5>
+                              <span class="fnt-size-11">{{loc.km}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount Appilicable</h5>
+                              <span class="fnt-size-11">{{loc.amount_appli}}</span>
+                            </div>
+                            </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Date of Travel</h5>
+                              <span class="fnt-size-11">{{loc.date_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Mode of Travel</h5>
+                              <span class="fnt-size-11">{{loc.mode_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>From</h5>
+                              <span class="fnt-size-11">{{loc.from_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>To</h5>
+                              <span class="fnt-size-11">{{loc.to_place}}</span>
+                            </div>
+                            <div ng-if="loc.bucket != ''">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Ticket ID</h5>
+                              <span class="fnt-size-11">{{loc.ticket_val}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>DPR Number</h5>
+                              <span class="fnt-size-11">{{loc.dpr_number}}</span>
+                            </div>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{loc.amount}}</span>
+                            </div>
+                            </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_lcon_count == '0'">No Records</div>
+                </div>
+                
+               <div class="panel panel-default panel-hovered" ng-controller="convy_S_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">CONVEYANCE &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="addConOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a><b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_con_amt}}</b></div>
+                    <!-- conveyance accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_con_count > '0'">
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}"  ng-repeat="(key,con) in expenseViews.exp_conveyance">
+                        <accordion-heading>
+                            CONVEYANCE {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(con.alias,con.expenses_alias,'co',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editCon(con.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{con.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Date of travel</h5>
+                              <span class="fnt-size-11">{{con.date_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Mode of travel</h5>
+                              <span class="fnt-size-11">{{con.mode_of_travel}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>From</h5>
+                              <span class="fnt-size-11">{{con.from_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>To</h5>
+                              <span class="fnt-size-11">{{con.to_place}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Ticket ID</h5>
+                              <span class="fnt-size-11">{{con.ticket_val}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>DPR Number</h5>
+                              <span class="fnt-size-11">{{con.dpr_number}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Files</h5>
+                              <span class="fnt-size-11" ng-if="con.document_link != ''"><a href="{{con.document_link}}" target="_blank"><span style="color:red">Click</span></a></span>
+                              <span class="fnt-size-11" ng-if="con.document_link == ''">-NA-</a></span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{con.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_con_count == '0'">No Records</div>
+                </div>
+                
+               <div class="panel panel-default panel-hovered" ng-controller="lod_S_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">LODGING &nbsp;  <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="lodExpOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a> 
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_lod_amt}}</b></div>
+                    <!-- Lodging accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_lod_count > '0'">
+                        <accordion-group is-open="lod_status.open" ng-class="{'panel-info': lod_status.open}" ng-repeat="(key,lod) in expenseViews.exp_lodging">
+                        <accordion-heading>
+                            LODGING {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': lod_status.open, 'ion-chevron-right': !lod_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(lod.alias,lod.expenses_alias,'ld',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editLod(lod.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{lod.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Stay Type</h5>
+                              <span class="fnt-size-11">{{lod.type_of_stay}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check in Date</h5>
+                              <span class="fnt-size-11">{{lod.check_in}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check out Date</h5>
+                              <span class="fnt-size-11">{{lod.check_out}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6" ng-if="lod.type_of_stay == 'Self'">
+                              <h5>Zone</h5>
+                              <span class="fnt-size-11">{{lod.zone_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6" ng-if="lod.type_of_stay == 'Self'">
+                              <h5>State</h5>
+                              <span class="fnt-size-11">{{lod.state_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6" ng-if="lod.type_of_stay == 'Self'">
+                              <h5>District</h5>
+                              <span class="fnt-size-11">{{lod.district_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6" ng-if="lod.type_of_stay == 'Reimbursement'">
+                              <h5>Hotel Name</h5>
+                              <span class="fnt-size-11">{{lod.hotel_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6" ng-if="lod.type_of_stay == 'Reimbursement'">
+                              <h5>Files</h5>
+                              <span class="fnt-size-11" ng-if="lod.document_link != ''"><a href="{{lod.document_link}}" target="_blank"><span style="color:red;">Click</span></a></span>
+                              <span class="fnt-size-11" ng-if="lod.document_link == ''">-NA-</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Ticket ID</h5>
+                              <span class="fnt-size-11">{{lod.ticket_val}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>DPR Number</h5>
+                              <span class="fnt-size-11">{{lod.dpr_number}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{lod.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_lod_count == '0'">No Records</div>
+                </div>
+                
+               <div class="panel panel-default panel-hovered" ng-controller="bod_S_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">BOARDING &nbsp; <a href=""  style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="bodExpOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a> 
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_bod_amt}}</b></div>
+                    <!-- Lodging accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_bod_count > '0'">
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}" ng-repeat="(key,bod) in expenseViews.exp_boarding">
+                        <accordion-heading>
+                            BOARDING {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top"  ng-click="removeDyn1(bod.alias,bod.expenses_alias,'bd',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editBod(bod.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{bod.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check in Date</h5>
+                              <span class="fnt-size-11">{{bod.check_in}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Check out Date</h5>
+                              <span class="fnt-size-11">{{bod.check_out}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Zone</h5>
+                              <span class="fnt-size-11">{{bod.zone_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>State</h5>
+                              <span class="fnt-size-11">{{bod.state_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>District</h5>
+                              <span class="fnt-size-11">{{bod.district_name}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Ticket ID</h5>
+                              <span class="fnt-size-11">{{bod.ticket_val}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>DPR Number</h5>
+                              <span class="fnt-size-11">{{bod.dpr_number}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{bod.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_bod_count == '0'">No Records</div>
+                </div>
+                
+               <div class="panel panel-default panel-hovered" ng-controller="oth_S_EditCtrl">
+                <div class="panel-heading exp_sing" style="padding:8px;">OTHERS &nbsp; <a href="" style="margin-right:13px;" tooltip="New" tooltip-placement="top" ng-click="othExpOpen(expenseViews.expenses_alias)" ng-if="expenseViews.single_edit"><i class="ion ion-plus-circled line_hg"></i></a>
+                <b class="right mt2" style="margin-right:10px !important;">Rs: {{expenseViews.tot_oth_amt}}</b></div>
+                    <!-- Lodging accordion -->
+                    <accordion class="accordion-panel" ng-if="expenseViews.exp_oth_count > '0'">
+                        <accordion-group is-open="con_status.open" ng-class="{'panel-info': con_status.open}" ng-repeat="(key,oth) in expenseViews.exp_others">
+                        <accordion-heading>
+                            OTHERS {{key+1}} <i class="mt2 ion small" ng-class="{'ion-chevron-down': con_status.open, 'ion-chevron-right': !con_status.open}"></i>
+                            <span class="ion ion-android-delete right line_hg"  tooltip="Delete" tooltip-placement="top" ng-click="removeDyn1(oth.alias,oth.expenses_alias,'ot',expenseViews.tot_exp_count)" ng-if="expenseViews.single_edit"></span>
+                            <span class="ion ion-compose right mr10 line_hg"  tooltip="Edit" tooltip-placement="top" ng-click="editOth(oth.alias)" ng-if="expenseViews.single_edit"></span>
+                            <span class="right mr10">Rs: {{oth.amount}}</span>
+                        </accordion-heading>
+                            <div class="row">
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Description</h5>
+                              <span class="fnt-size-11">{{oth.description}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Date</h5>
+                              <span class="fnt-size-11">{{oth.checked_date}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Files</h5>
+                              <span class="fnt-size-11" ng-if="oth.document_link != ''"><a href="{{oth.document_link}}" target="_blank"><span style="color:red;">Click</span></a></span>
+                              <span class="fnt-size-11" ng-if="oth.document_link == ''">-NA-</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Ticket ID</h5>
+                              <span class="fnt-size-11">{{oth.ticket_val}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>DPR Number</h5>
+                              <span class="fnt-size-11">{{oth.dpr_number}}</span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-xs-6 col-sm-6">
+                              <h5>Amount</h5>
+                              <span class="fnt-size-11">{{oth.amount}}</span>
+                            </div>
+                        </div>
+                        </accordion-group>
+                    </accordion>
+                    <!-- #end accordion -->
+                    <div class="noRec panel-group" ng-if="expenseViews.exp_oth_count == '0'">No Records</div>
+                </div> 
+             </accordion>
+            <!-- #end accordion -->
+       	    </div>
+            
+        </div>
+      </div>
+        <div class="row padRow">
+            <div class="col-md-5 bs-callout">
+                <div><h4>Outstanding Amt:  <span>{{expenseViews.outstanding}}</span></h4></div>
+            </div>
+            <div class="col-md-5 bs-callout">
+                <div><h4>Booked Expenses: <span>{{expenseViews.booked_expenses}}</span></h4></div>
+            </div>
+            <div class="col-md-5 bs-callout">
+                <div><h4>Reimbursement: <span> {{expenseViews.reimbursement_amount}}</span></h4></div>
+            </div>
+            <div class="col-md-5 bs-callout">
+                <div><h4>Refund Amount: <span> {{expenseViews.refund_amount}}</span></h4></div>
+            </div>
+            <div class="col-md-5 bs-callout">
+                 <div><h4>Final Amount (Total Expenses- Outstanding Balance): <span> {{expenseViews.final_amount}}</span></h4></div>
+            </div>
+        </div>
+     	<div class="row padRow">
+         	<div class="col-md-12 bs-callout">
+                <div class="col-md-6 form-group" ng-repeat="rem in expenseViews.remarks">
+                    <h4>Remarks: <small>(By {{rem.remarked_by}}, On: {{rem.remarked_on}})</small></h4>
+                    <p>{{rem.remarks_desc}}</p>
+                </div>
+            </div>
+    	</div>		
+        <form class="form-horizontal forms_request" name="SerEditForm" data-went="#/expenses" method="post" url="services/expense_tracker/user_expense_submit" ng-if="expenseViews.single_edit"  ng-submit="sendRequest1()" novalidate>
+            <input type="hidden" value="{{expenseViews.expenses_alias}}" name="id" />
+        	<input type="hidden" value="{{expenseViews.ref2}}" name="ref2" />
+            <div class="row form-group"> 
+                <div class="col-sm-6 col-sm-offset-5 mt10">
+                     <button type="submit" class="btn btn-info btn-sm">Request Expense</button>
+                </div>
+            </div>
+        </form>
+	</div>
+</div>

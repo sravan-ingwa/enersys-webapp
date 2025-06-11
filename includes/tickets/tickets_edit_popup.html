@@ -1,0 +1,74 @@
+<style>
+    .blue_place{color: #428bca !important;font-size: 14px !important;}
+    .form-group {margin-bottom:0px;}
+    .form-group div.col-sm-4{margin-bottom:15px;}
+    .modal-header > .close {right:-30px; top:-12px;}
+    .upload-file{border-bottom: 1px solid rgba(0,0,0,0.12); padding-top:9px;}
+    select .form-control:{height:68px !important;}
+    .cells{box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.15);}
+    .singleSelect{width:100%; border-bottom:1px solid #e0e0e0;}
+    .SumoSelect > .optWrapper {right:0px !important;}
+    .SumoSelect > .CaptionCont > span.placeholder {color:#ccc !important;}
+    .singleSelect > .CaptionCont > label > i {color:#000;}
+    .SumoSelect > .optWrapper.open {top:33px !important;}
+    .mb25{margin-bottom: 25px;}
+    .panel-heading b{color:#428bca; margin-right:20px;}.panel-heading i{color:#428bca;}.panel-heading span{color:#428bca}
+    .panel-info > .panel-heading { color: #ffffff !important; background-color: #2196f3; border-color: #2196f3;}
+    .panel-info > .panel-heading span{color:#fff;}
+    .panel-info > .panel-heading i{color:#fff;}
+    .panel-info > .panel-heading b{color:#fff;}
+    .right a span{color:#428bca;}
+    .exp_sing{padding:8px !important; margin:0px !important; background-color:#f5f5f5 !important;}
+    .exp_sing b{color:#535353}
+    .singPad{padding:5px 10px;}
+</style>
+ <div class="modal-style" ng-controller="ticketEditPopUpCntl">	<!-- wrapper for specific style -->
+	<div class="modal-header clearfix">
+		<h4 class="modal-title">Edit Tickets</h4>
+		<span class="close ion ion-android-close" ng-click="modalClose()" md-ink-ripple></span>
+	</div>
+	<div class="modal-body" ng-controller="addingform">
+        <div class="row form-group">
+            <div class="col-sm-12" style="text-align: center;">
+                <div class="ui-radio ui-radio-primary">
+                    <label class="ui-radio-inline" style="margin-right:20%;">
+                        <input type="radio" ng-model="editType" ng-click="mainChanged(val.ticket_id)" value="efsr"> 
+                        <span>Edit E-fsr</span>
+                    </label>
+                    <label class="ui-radio-inline">
+                        <input type="radio" ng-model="editType" ng-click="mainChanged(val.ticket_id)" value="ticket">
+                        <span>Edit Ticket</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-12" ng-if="editType == 'efsr'" style="text-align: center;">
+                <div class="ui-radio ui-radio-primary" 
+                    ng-repeat="(key, val) in editData.obj">
+                    <label class="ui-radio-inline" ng-if="val.efsr_no!='' && val.esca_efsr_link==''">
+                        <input type="radio" name="efsrTicketId" ng-click="ticketChecked(val.ticket_id, val.ticket_alias)" ng-value="efsrTicketId"> 
+                        <span ng-if="val.purpose == 0">{{val.ticket_id}} - VISIT {{key+1}}</span>
+                        <span ng-if="val.purpose != 0">{{val.ticket_id}} - REPLACE {{key+1}}</span>
+                    </label>
+                </div>
+                <div class="col-sm-12 mt20" ng-if="efsrTicketId">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="openEditEFSRPopUp()" tabindex="0">Open</button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="modalClose()" tabindex="0">Cancel</button>
+                </div>
+            </div>
+            <div class="col-sm-12" ng-if="editType=='ticket'" style="text-align: center;">
+                <div class="ui-radio ui-radio-primary" 
+                    ng-repeat="(key, val) in editData.obj">
+                    <label class="ui-radio-inline">
+                        <input type="radio" name="efsrTicketId" ng-click="ticketChecked(val.ticket_id, val.ticket_alias)" ng-value="efsrTicketId"> 
+                        <span ng-if="val.purpose == 0">{{val.ticket_id}} - VISIT {{key+1}}</span>
+                        <span ng-if="val.purpose != 0">{{val.ticket_id}} - REPLACE {{key+1}}</span>
+                    </label>
+                </div>
+                <div class="col-sm-12 mt20" ng-if="efsrTicketId">
+                    <button type="button" class="btn btn-info btn-sm" ng-click="openEditTicketPopUp()" tabindex="0">Open</button>
+                    <button type="button" class="btn btn-info btn-sm" ng-click="modalClose()" tabindex="0">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
